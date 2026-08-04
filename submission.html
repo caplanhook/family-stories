@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Family Stories — Take-Home Submission</title>
+<style>
+  :root{
+    --cream:#FBF7F0;
+    --paper:#FFFFFF;
+    --ink:#33302B;
+    --ink-soft:#6B655C;
+    --line:#E6DECF;
+    --accent:#9A5B3F;
+    --accent-soft:#B57A5D;
+    --sage:#6E7A5E;
+    --shadow:0 8px 30px rgba(90,70,50,0.10);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--cream);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased;
+  }
+
+  /* Sticky bar keeps the demo one click away, always "alongside" */
+  .bar{
+    position:sticky;top:0;z-index:20;background:rgba(251,247,240,.92);
+    backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid var(--line);
+    display:flex;align-items:center;gap:16px;padding:12px 22px;
+  }
+  .bar .mark{font-weight:600;font-size:17px;color:var(--accent);margin-right:auto;letter-spacing:-.01em}
+  .bar a{text-decoration:none;font-family:inherit}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;border-radius:12px;
+    font-size:15px;font-weight:600;padding:11px 18px;transition:transform .12s,background .2s,border-color .2s;
+  }
+  .btn-primary{background:var(--accent);color:#fff;border:1px solid var(--accent)}
+  .btn-primary:hover{background:var(--accent-soft);border-color:var(--accent-soft)}
+  .btn-ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--accent-soft);color:var(--ink)}
+
+  main{max-width:780px;margin:0 auto;padding:0 26px 100px}
+
+  /* Hero */
+  .hero{padding:64px 0 26px;border-bottom:1px solid var(--line);margin-bottom:14px}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:13px;font-weight:600;color:var(--accent);margin:0 0 14px}
+  .hero h1{font-size:40px;line-height:1.12;margin:0 0 18px;text-wrap:balance;letter-spacing:-.015em}
+  .hero p.lede{font-size:20px;color:var(--ink-soft);margin:0 0 28px;max-width:60ch}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+  .hero-actions .btn{font-size:16px;padding:14px 22px;box-shadow:var(--shadow)}
+
+  /* Article typography */
+  article h2{font-size:26px;margin:52px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+  article h2::after{content:"";display:block;width:44px;height:3px;background:var(--accent);border-radius:2px;margin-top:12px}
+  article h3{font-size:20px;margin:34px 0 4px;color:var(--ink)}
+  article p{margin:14px 0;max-width:68ch}
+  article strong{color:var(--ink);font-weight:600}
+  article ul{margin:14px 0;padding-left:22px;max-width:68ch}
+  article li{margin:8px 0}
+  article li::marker{color:var(--accent-soft)}
+
+  /* Callout linking to the live demo */
+  .callout{
+    background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--sage);
+    border-radius:14px;padding:22px 24px;margin:34px 0;box-shadow:var(--shadow);
+    display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  }
+  .callout .txt{flex:1;min-width:220px}
+  .callout .txt b{font-size:18px}
+  .callout .txt span{display:block;color:var(--ink-soft);font-size:15.5px;margin-top:4px}
+
+  /* Tables */
+  .tbl{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}
+  table{border-collapse:collapse;width:100%;font-size:16px}
+  th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{background:#F4ECDD;color:var(--ink);font-weight:600;white-space:nowrap}
+  tbody tr:last-child td{border-bottom:none}
+  td:first-child{font-weight:600}
+  .rate{font-weight:600}
+  .rate.high{color:var(--sage)}
+  .rate.no{color:var(--accent)}
+
+  .footer{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:15px;display:flex;gap:18px;flex-wrap:wrap}
+  .footer a{color:var(--accent);text-decoration:none}
+  .footer a:hover{text-decoration:underline}
+
+  @media (max-width:600px){
+    .hero h1{font-size:31px}
+    .bar .mark{font-size:15px}
+    .btn{padding:10px 14px;font-size:14px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <span class="mark">Family Stories</span>
+  <a class="btn btn-ghost" href="https://github.com/caplanhook/family-stories" target="_blank" rel="noopener">GitHub ↗</a>
+  <a class="btn btn-primary" href="index.html" target="_blank" rel="noopener">Try the live prototype ↗</a>
+</div>
+
+<main>
+  <header class="hero">
+    <p class="eyebrow">Take-Home Submission</p>
+    <h1>Voice Notes → Long-Form Writing</h1>
+    <p class="lede">A weekly prompt asks an older relative to tell one story out loud; the tool turns her unpolished recording into a structured written story in her own voice — reordered, never rewritten — and delivers it to her family with the original audio attached.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="index.html" target="_blank" rel="noopener">Try the live prototype ↗</a>
+      <a class="btn btn-ghost" href="https://github.com/caplanhook/family-stories" target="_blank" rel="noopener">View the code ↗</a>
+    </div>
+  </header>
+
+  <div class="callout">
+    <div class="txt">
+      <b>The prototype opens in its own tab.</b>
+      <span>Microphone recording is real and needs a top-level page, so it launches full-screen rather than embedded here. If you decline the mic prompt, it falls back to a sample recording automatically.</span>
+    </div>
+    <a class="btn btn-primary" href="index.html" target="_blank" rel="noopener">Open demo ↗</a>
+  </div>
+
+  <article>
+    <h2>Prompt</h2>
+    <p>Build a tool that turns voice notes into a written document. Focus on long-form writing.</p>
+
+    <h2>Product goals</h2>
+    <ul>
+      <li><strong>Valuable:</strong> Leverages unique value from voice + AI</li>
+      <li><strong>Defensible:</strong> Differentiated from generalist AI assistants</li>
+      <li><strong>Constrained:</strong> Meaningful scope achievable within 3 months</li>
+    </ul>
+
+    <h2>Definitions</h2>
+    <p>I defined the two nouns in the prompt first; the scope fell out of the definitions.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th></th><th>Defined as</th><th>Out of scope</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Voice Notes</td>
+            <td>Self-recorded, unpolished voice from a single individual, roughly 2 to 20 minutes. Spoken for convenience, not performance.</td>
+            <td>Recorded conversation (multi-speaker): meetings, sales calls, podcasts. Dictation (the writing is already composed in the speaker's head).</td>
+          </tr>
+          <tr>
+            <td>Long-form</td>
+            <td>Extended, self-contained prose (roughly 600 to 3,000 words) with structure and an arc a reader could receive cold.</td>
+            <td>Note-taking. Summarization. Data entry (e.g. CRM). Messages and replies.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>What's great about voice + AI</h2>
+    <ul>
+      <li>Lower barrier to entry than writing, especially for people who will never face down a blank page</li>
+      <li>Supports non-linear thinking; the speaker can come back to earlier ideas and the AI can recover the structure</li>
+      <li>AI can clean up thinking: untangle chronology, reposition tangents, surface the point the speaker was circling</li>
+      <li>Speech preserves authentic phrasing that typing tends to sand away; the recording itself is an artifact worth keeping</li>
+    </ul>
+
+    <h2>Four concepts considered for this demo</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Concept</th><th>One-liner</th><th>Valuable</th><th>Defensible</th><th>Constrained</th></tr></thead>
+        <tbody>
+          <tr><td>1. Business Decision Memo</td><td>Think out loud, get a decision memo</td><td class="rate">Med</td><td class="rate no">No</td><td class="rate no">No</td></tr>
+          <tr><td>2. Occasion Speech</td><td>Ramble about someone, get the toast</td><td class="rate">Low</td><td class="rate no">No</td><td class="rate high">Yes</td></tr>
+          <tr><td>3. Content Marketing</td><td>Ramble on a walk, get a newsletter</td><td class="rate high">High</td><td class="rate no">No</td><td class="rate no">No</td></tr>
+          <tr><td>4. Family Memories</td><td>Prompt Grandma weekly, get her stories in her own voice</td><td class="rate high">High</td><td class="rate high">Yes</td><td class="rate high">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Family Memories won on defensibility and constraint: a generalist assistant can draft a memo or newsletter today, but it cannot run a weekly ritual between one family and one voice, and the per-story unit (one prompt, one recording, one finished piece) keeps the scope contained.</p>
+
+    <h2>1. Who are you building for?</h2>
+    <p>Three user groups under consideration:</p>
+    <ul>
+      <li><strong>Buyer:</strong> Adult child, someone in their 20s through 50s who realizes their parent's stories exist only in that parent's head</li>
+      <li><strong>User:</strong> Storyteller, someone in their 70s or older. Comfortable with email but not technically savvy.</li>
+      <li><strong>Audience:</strong> The rest of the family. Mix of ages and technical fluencies.</li>
+    </ul>
+    <p>I built the prototype entirely for the storyteller, because the core UX challenge of the product is making it easy for the older user to record themselves and edit the result prior to publishing. Every design decision serves someone who will abandon the product when there is unnecessary friction: the emailed link is the auth (no login anywhere), there is one primary action per screen, and composition never requires typing. Keyboards appear only for word-level corrections; anything story-sized is done by talking. The buyer and audience sides are real product surface, but they are conventional product surface. The storyteller's experience is the part that has to be invented, so it is the part I prototyped.</p>
+
+    <h2>2. What's the most important thing to get right?</h2>
+    <p>The most important feature is preserving the voice of the author. AI has a tendency to flatten the author's voice into more generic prose, and this is the one product where that failure is fatal: the written story will outlive the product and probably the speaker. The system's core rule is to <strong>reorder and stitch, never rewrite</strong>: the AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it should not meaningfully change the phrasing. In the demo story, every sentence is verbatim from the transcript.</p>
+    <p>The second half of getting this right is honesty about uncertainty. Transcription fails most on exactly what family stories are dense with (names, dates, places), and silently guessing wrong on a family surname is the worst possible failure. So the prototype flags low-confidence words rather than papering over them, including a seeded case where the storyteller self-corrects a year mid-ramble and the system flags it instead of guessing. Corrections propagate (fix a surname once, it updates everywhere), and edit interfaces match the edit's granularity: keyboard for word-level precision, voice for story-level changes.</p>
+    <p>Attaching the original recording to every story provides both a sentimental artifact the family will treasure and the ground truth that proves the AI is being truthful.</p>
+
+    <h2>3. What would this look like with 5 engineers and 3 months?</h2>
+    <p><strong>North star metric:</strong> a family member rates the story as "sounds like her." Supporting funnel: prompt opened → recording completed → story saved → family opened → reaction sent → next week's recording completed.</p>
+
+    <h3>Month 1 — Quality loop and foundations</h3>
+    <ul>
+      <li>Real streaming transcription tuned for older voices, accents, and phone-quality audio (a known weak spot for off-the-shelf ASR)</li>
+      <li>Eval harness for the restructuring itself: verbatim-preservation rate, chronology accuracy, tangent-handling, and the human "sounds like her" rating pipeline</li>
+      <li>Entity handling: per-family name dictionary (people, places) that improves transcription and powers confidence flagging</li>
+      <li>Productionize the storyteller flow from the prototype, plus basic family delivery (story + audio via email/link)</li>
+      <li>Instrument the full funnel from day one</li>
+    </ul>
+
+    <h3>Month 2 — The full loop and the interviewer</h3>
+    <ul>
+      <li><strong>Buyer experience:</strong> onboarding, gifting flow, prompt library, prompt scheduling and personalization</li>
+      <li><strong>Family feed:</strong> stories arrive weekly with reactions and comments, routed back to the storyteller as encouragement ("Mom, I never knew that!" is the retention engine)</li>
+      <li><strong>The AI interviewer (the moat):</strong> generates next week's prompt from this week's story ("you mentioned Ruth three times; tell me about Ruth"); builds an entity graph across stories (people, places, eras) so the corpus deepens instead of just accumulating; scoped carefully so it feels like a curious grandchild, not an interrogation</li>
+      <li><strong>Phone-call capture:</strong> the storyteller can simply answer a scheduled weekly phone call and talk; no smartphone or link required. This is the single biggest accessibility unlock for the oldest users.</li>
+      <li><strong>Multi-language:</strong> record in a native language; the family receives both the original and a voice-preserving translation. Immigrant family stories are a core use case, not an edge case.</li>
+    </ul>
+
+    <h3>Month 3 — The harvest and the household</h3>
+    <ul>
+      <li><strong>The printed book:</strong> automated layout from the year's stories, per-story QR codes that play her voice, gift-timed production (subscriptions started at Christmas mature at Christmas)</li>
+      <li><strong>Photos:</strong> family members attach photos to stories; the entity graph suggests matches ("this story mentions the house on Mitchell Street")</li>
+      <li><strong>Multi-storyteller households:</strong> both grandparents, or siblings telling the same story from different sides, woven into one volume</li>
+      <li><strong>Family-driven prompts:</strong> grandchildren can submit questions, which become prompts in the grandchild's name</li>
+      <li><strong>Private family podcast feed:</strong> the original recordings, subscribable only by the family</li>
+      <li><strong>Launch motion:</strong> pricing, holiday gifting funnel, and the natural referral loop (every family audience member is a future buyer for their own parent)</li>
+    </ul>
+
+    <h3>Team shape</h3>
+    <ul>
+      <li>2 engineers on the transcription/restructuring quality loop and evals</li>
+      <li>2 product engineers across the three surfaces (storyteller, buyer, family)</li>
+      <li>1 engineer on audio infrastructure, telephony, and the print pipeline</li>
+    </ul>
+
+    <h3>What I still wouldn't build</h3>
+    <ul>
+      <li>Social features beyond the family, public sharing, or anything that makes this feel like content</li>
+      <li>Rich-text composition for the storyteller; composition stays in voice, keyboards are for corrections</li>
+      <li>The product is a ritual between one family and one voice, and the discipline is keeping it that</li>
+    </ul>
+  </article>
+
+  <div class="footer">
+    <a href="index.html" target="_blank" rel="noopener">Live prototype ↗</a>
+    <a href="https://github.com/caplanhook/family-stories" target="_blank" rel="noopener">Source on GitHub ↗</a>
+    <a href="README.md" target="_blank" rel="noopener">README</a>
+  </div>
+</main>
+
+</body>
+</html>
