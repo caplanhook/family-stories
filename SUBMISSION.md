@@ -34,7 +34,7 @@ I defined the two nouns in the prompt first to clarify the scope.
 |---|---|---|---|---|
 | 1. Business Decision Memo | Think out loud, get a decision memo | Med | No | No |
 | 2. Occasion Speech | Ramble about someone, get the toast | Low | No | Yes |
-| 3. Content Marketing | Ramble on a walk, get a LinkedIn psot or blog | High | No | No |
+| 3. Content Marketing | Ramble on a walk, get a LinkedIn post or blog | High | No | No |
 | 4. Family Memories | Prompt Grandma weekly, get her stories in her own voice | High | Yes | Yes |
 
 Family Memories won on defensibility and constraint: a generalist assistant can draft a memo or newsletter today, but it cannot run a weekly ritual between one family and one voice, and the per-story unit (one prompt, one recording, one finished piece) keeps the scope contained.
