@@ -14,19 +14,19 @@ Build a tool that turns voice notes into a written document. Focus on long-form 
 
 ## Definitions
 
-I defined the two nouns in the prompt first; the scope fell out of the definitions.
+I defined the two nouns in the prompt first to clarify the scope.
 
 | | Defined as | Out of scope |
 |---|---|---|
-| **Voice Notes** | Self-recorded, unpolished voice from a single individual, roughly 2 to 20 minutes. Spoken for convenience, not performance. | Recorded conversation (multi-speaker): meetings, sales calls, podcasts. Dictation (the writing is already composed in the speaker's head). |
-| **Long-form** | Extended, self-contained prose (roughly 600 to 3,000 words) with structure and an arc a reader could receive cold. | Note-taking. Summarization. Data entry (e.g. CRM). Messages and replies. |
+| **Voice Notes** | Self-recorded, unpolished voice from a single individual. | Recorded conversation (multi-speaker): meetings, sales calls, podcasts. |
+| **Long-form** | Extended, self-contained prose (500+ words). | Note-taking. Summarization. Data entry (e.g. CRM). |
 
 ## What's great about voice + AI
 
-- Lower barrier to entry than writing, especially for people who will never face down a blank page
-- Supports non-linear thinking; the speaker can come back to earlier ideas and the AI can recover the structure
-- AI can clean up thinking: untangle chronology, reposition tangents, surface the point the speaker was circling
-- Speech preserves authentic phrasing that typing tends to sand away; the recording itself is an artifact worth keeping
+- Lower barrier to entry than writing
+- Supports non-linear thinking. The speaker can come back to earlier ideas
+- AI can clean up thinking: untangle chronology and surface the point the speaker was circling
+- Speech preserves authentic phrasing that writing may lose
 
 ## Considered four concepts for the purpose of this demo
 
