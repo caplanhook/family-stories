@@ -5,7 +5,7 @@ turns her unpolished recording into a structured written story **in her own voic
 reordered and stitched, never rewritten — and delivers it to her family with the
 original audio attached.
 
-**Target persona:** Margaret, ~80, non-technical. Every screen is built for someone
+**Target persona:** Grandma, ~80, non-technical. Every screen is built for someone
 who has never used an app beyond email: large type, high contrast, one primary action
 per screen, no navigation chrome, and voice as the way you *compose* (the keyboard only
 ever fixes a single misheard word).
@@ -54,7 +54,7 @@ unavailable, the app falls back to a **"Use sample recording"** button and keeps
 - **The AI restructuring** — the 5-paragraph story on the story page is hand-tuned
   content, not a live model call. In the real product this is a single LLM pass with a
   strict *"reorder and stitch, never rewrite"* system prompt. Every sentence shown is
-  Margaret's own phrasing from the transcript, only reordered and lightly stitched; the
+  Grandma's own phrasing from the transcript, only reordered and lightly stitched; the
   pierogi tangent was cut (cutting/repositioning tangents is allowed, rewriting is not).
 - **The paragraph re-dictation** — "That's not quite right" records for real, but the
   swapped-in replacement text is canned (wired for paragraph 4).
@@ -62,7 +62,7 @@ unavailable, the app falls back to a **"Use sample recording"** button and keeps
   and a "Story 3 of 52" progress line only.
 
 ### The seeded imperfection (worth pointing out live)
-In the transcript, Margaret says "1953?" then corrects herself to **1935**. The "AI"
+In the transcript, Grandma says "1953?" then corrects herself to **1935**. The "AI"
 kept the *wrong* year (1953) and **flagged it** with a dotted underline rather than
 silently guessing. Tapping it offers the **1935** chip — this is the demo's honest-
 uncertainty beat. The surname **Kowalski** is flagged the same way (chip suggests
@@ -80,7 +80,7 @@ uncertainty beat. The surname **Kowalski** is flagged the same way (chip suggest
 - **Accounts / auth** — a demo doesn't need identity; it adds friction for an 80-year-old
   and nothing to the product story.
 - **Buyer-side prompt picker** — the family member who sets this up would choose weekly
-  prompts; out of frame for Margaret's linear flow.
+  prompts; out of frame for Grandma's linear flow.
 - **Story library / archive** — the closing "Story 3 of 52" gestures at it; browsing past
   stories isn't part of the record-one-story narrative.
 - **Book rendering** — represented by a confirmation state; real PDF/print layout is a

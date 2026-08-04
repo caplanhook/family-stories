@@ -1,5 +1,5 @@
 This is the "transcript" the speech-to-text step pretends to hear. In the shipped
-prototype it is NOT shown in the UI — regardless of what audio Margaret actually
+prototype it is NOT shown in the UI — regardless of what audio Grandma actually
 records, the app treats her recording as if it produced the text below, then serves
 the hand-tuned structured story on the story page. It lives here so the real-vs-faked
 story is legible for the walkthrough (see README, "Real vs. faked").
