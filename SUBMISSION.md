@@ -29,7 +29,7 @@ I set 3 product goals to evaluate potential directions for this take home.
 - **Defensible:** Differentiated from generalist AI assistants
 - **Constrained:** Meaningful scope achievable within 3 months
 
-## Considered four concepts for the purpose of this demo
+## Four concepts I considered
 
 | Concept | 1-liner | Valuable | Defensible | Constrained |
 |---|---|---|---|---|
@@ -54,25 +54,24 @@ Every product and design decision serves someone who will abandon the product wh
 
 -   The emailed link is the auth (no login anywhere)
 -   There is one primary action per screen, and composition never requires typing.
--   Flow and typography optimized for multiple devices and screen sizes 
+-   The flow and typography are tuned for phones as well as desktop. 
 -   Keyboards appear only for word-level corrections; anything story-sized is done by talking.
 
 ## 2. What's the most important thing to get right?
 
-The most important feature is preserving the voice of the author. As proposed, this tool preserves the speaker's voice in three ways:
-- Focus the AI on **reordering and stitching, never rewriting**: the AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it should not meaningfully change the phrasing.
-- Always **provide the ground truth**. The original recording to every story provides both a sentimental artifact the family will treasure and proof that the AI is reflecting what the user actually said.
-- **Acknowledge uncertainty**. Transcription often fails with proper nouns (e.g. names, places) which will frequently pop up in family stories. The prototype nudges the user to correct low-confidence transcriptions, which will allow the system to build a personalized corpus of important people and places over the subscription.
+The most important thing to get right is **preserving the author's voice.** Generic AI flattens a person's phrasing into smoother, blander prose — and here that failure is fatal, because the written story will outlive the product and probably the speaker. The prototype protects the voice three ways:
+- **Reorder and stitch, never rewrite.** The AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it never changes the phrasing. In the demo, every sentence in the finished story is verbatim from the transcript.
+- **Always show the ground truth.** Every story ships with the original recording attached — both a keepsake the family will treasure and proof that the written version reflects what she actually said.
+- **Acknowledge uncertainty instead of guessing.** Transcription fails most on the proper nouns family stories are full of (names, places). Rather than guess, the prototype flags low-confidence words for a one-tap fix — like the seeded year the speaker corrects mid-sentence — and those corrections compound into a per-family corpus of people and places over the subscription.
 
 
 ## 3. What would this look like with 5 engineers and 3 months?
 
-**North star metric:** WAU Rate (Active Users / Subscribed Users)
-This is the preferred success metric because it captures activation + retention on the relevant cadence for the subscription.
+**North star: Weekly Active Rate** — the share of subscribers who record and send a story in a given week (active ÷ subscribed). The product is a weekly ritual, so weekly-active is the honest test of whether the habit is forming; as a *rate* it captures activation and retention together, on the cadence we actually sell.
 
-Secondary:
-- AI Quality: Prompt family members for feedback "Does this sound like grandma?"
-- Engagement: Story completion rate (% of users who finish the story funnel after starting a recording)
+**Supporting metrics**
+- **Quality guardrail:** "Sounds like her": share of family recipients who rate a story as sounding like the storyteller. If this drops, nothing else matters: it's what protects the voice-preservation promise above.
+- **Storyteller activation:** story completion rate: % who finish recording and send after opening a prompt.
 
 
 ### Month 1: Quality loop and foundations
