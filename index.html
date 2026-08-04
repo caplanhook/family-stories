@@ -96,6 +96,7 @@
   .player-label{font-size:16px;color:var(--ink-soft);margin-bottom:8px}
   .progress{height:8px;background:var(--line);border-radius:5px;overflow:hidden;cursor:pointer}
   .progress-fill{height:100%;width:0;background:var(--sage);border-radius:5px;transition:width .1s linear}
+  .player-time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink-soft);text-align:right;margin-top:8px;letter-spacing:.02em}
 
   #story-body p{font-size:22px;line-height:1.72;margin:0 0 22px;position:relative}
   .word{cursor:text;border-radius:4px;padding:0 1px;transition:background .15s}
@@ -148,6 +149,9 @@
   .mini-pulse::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);opacity:.35;animation:pulse 1.8s ease-out infinite}
   .mini-pulse .mic{width:22px;height:32px;border-radius:11px;background:#fff}
   .mini-timer{font-variant-numeric:tabular-nums;font-size:30px;font-weight:600;margin-bottom:26px}
+  .confirm-sub{color:var(--ink-soft);font-size:18px;line-height:1.5;margin:0 0 26px}
+  .confirm-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .confirm-actions .btn-quiet,.confirm-actions .btn-primary{flex:1;min-width:150px;justify-content:center}
 
   /* Toasts */
   .toasts{position:fixed;left:0;right:0;bottom:26px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:60;pointer-events:none}
@@ -225,11 +229,12 @@
       <div class="player-main">
         <div class="player-label">Grandma's original recording</div>
         <div class="progress" id="progress" onclick="seek(event)"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="player-time" id="player-time">00:00 / 00:00</div>
       </div>
     </div>
     <audio id="audio" preload="metadata"></audio>
 
-    <p class="edit-hint">Read it over. Tap any word to change it, or use “✎ Change this” to retell a whole part.</p>
+    <p class="edit-hint">Read it over. Click any word to change it, or use “✎ Change this” to retell a whole part.</p>
     <div id="story-body"></div>
     <p class="flag-hint">A dotted underline is a word I wasn't sure I heard right.</p>
 
@@ -276,6 +281,18 @@
     <div class="mini-pulse"><span class="mic"></span></div>
     <div class="mini-timer" id="mini-timer">0:00</div>
     <button class="btn-primary" onclick="finishMini()">I'm finished</button>
+  </div>
+</div>
+
+<!-- Confirm removal modal -->
+<div class="modal" id="confirm-modal">
+  <div class="modal-box">
+    <h3>Take this part out?</h3>
+    <p class="confirm-sub">This paragraph will be removed from your story.</p>
+    <div class="confirm-actions">
+      <button class="btn-quiet" onclick="confirmCancel()">Keep it</button>
+      <button class="btn-primary" onclick="confirmOk()">Yes, take it out</button>
+    </div>
   </div>
 </div>
 
@@ -443,7 +460,7 @@ function renderStory(){
         const span=document.createElement('span');
         span.className='word' + (isFlagged(tok.text) ? ' flagged' : '');
         span.textContent=tok.text;
-        if(isFlagged(tok.text)) span.title='I might have misheard this — tap to fix.';
+        if(isFlagged(tok.text)) span.title='I might have misheard this — click to fix.';
         span.addEventListener('click', ()=>openEditor(pi, ti));
         p.appendChild(span);
       }
@@ -508,13 +525,34 @@ function sheetNotRight(){
 }
 function sheetRemove(){
   const pi=sheetPi; closeSheet();
-  const removed = story[pi];
-  story.splice(pi,1);
-  renderStory();
-  toast('Paragraph removed.', 'Undo', ()=>{
-    story.splice(pi,0,removed); renderStory();
-  }, 5000);
+  openConfirm(()=>{
+    const removed = story[pi];
+    story.splice(pi,1);
+    renderStory();
+    toast('Paragraph removed.', 'Undo', ()=>{
+      story.splice(pi,0,removed); renderStory();
+    }, 5000);
+  });
 }
+
+/* ---------- Confirm-removal modal ---------- */
+let confirmCb = null;
+function openConfirm(onOk){
+  confirmCb = onOk;
+  document.getElementById('confirm-modal').classList.add('active');
+}
+function confirmCancel(){
+  confirmCb = null;
+  document.getElementById('confirm-modal').classList.remove('active');
+}
+function confirmOk(){
+  const cb = confirmCb; confirmCb = null;
+  document.getElementById('confirm-modal').classList.remove('active');
+  if(cb) cb();
+}
+document.getElementById('confirm-modal').addEventListener('click', e=>{
+  if(e.target.id==='confirm-modal') confirmCancel();
+});
 function sheetAdd(){
   closeSheet();
   openMini("Tell me what to add", ()=>{
@@ -554,12 +592,39 @@ function togglePlay(){
   if(!audioEl.src){ toast('No recording to play on this run.'); return; }
   if(playing){ audioEl.pause(); } else { audioEl.play(); }
 }
+let audioDuration = 0;
+function clock(sec){
+  if(!isFinite(sec) || sec < 0) sec = 0;
+  sec = Math.floor(sec);
+  const m = Math.floor(sec/60), s = sec%60;
+  return String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+function updateTime(){
+  document.getElementById('player-time').textContent =
+    clock(audioEl.currentTime) + ' / ' + clock(audioDuration);
+}
+audioEl.addEventListener('loadedmetadata', ()=>{
+  // MediaRecorder webm blobs often report duration=Infinity until you seek past the end.
+  if(!isFinite(audioEl.duration)){
+    audioEl.currentTime = 1e101;
+    audioEl.addEventListener('timeupdate', function fix(){
+      audioEl.removeEventListener('timeupdate', fix);
+      audioDuration = isFinite(audioEl.duration) ? audioEl.duration : 0;
+      audioEl.currentTime = 0;
+      updateTime();
+    });
+  } else {
+    audioDuration = audioEl.duration;
+    updateTime();
+  }
+});
 audioEl.addEventListener('play', ()=>{ playing=true; setPlayIcon(true); });
 audioEl.addEventListener('pause', ()=>{ playing=false; setPlayIcon(false); });
 audioEl.addEventListener('ended', ()=>{ playing=false; setPlayIcon(false); });
 audioEl.addEventListener('timeupdate', ()=>{
-  if(audioEl.duration) document.getElementById('progress-fill').style.width =
-    (audioEl.currentTime/audioEl.duration*100)+'%';
+  if(audioDuration) document.getElementById('progress-fill').style.width =
+    (audioEl.currentTime/audioDuration*100)+'%';
+  updateTime();
 });
 function setPlayIcon(on){
   document.getElementById('play-icon').innerHTML = on
@@ -567,9 +632,9 @@ function setPlayIcon(on){
     : '<path d="M8 5v14l11-7z"/>';
 }
 function seek(e){
-  if(!audioEl.duration) return;
+  if(!audioDuration) return;
   const r=document.getElementById('progress').getBoundingClientRect();
-  audioEl.currentTime = ((e.clientX-r.left)/r.width) * audioEl.duration;
+  audioEl.currentTime = ((e.clientX-r.left)/r.width) * audioDuration;
 }
 
 /* ---------- Save / deliver ---------- */
