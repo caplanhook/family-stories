@@ -35,10 +35,10 @@ I set 3 product goals to evaluate potential directions for this take home.
 |---|---|---|---|---|
 | 1. Business Decision Memo | Think out loud, get a decision memo | Med | No | No |
 | 2. Content Marketing | Ramble on a walk, get a LinkedIn post or blog | High | No | No |
-| 3. Family Memories | Prompt Grandma weekly, get her stories in her own voice | High | Yes | Yes |
+| ⭐ **3. Family Memories** | **Prompt Grandma weekly, get her stories in her own voice** | **High** | **Yes** | **Yes** |
 | 4. Occasion Speech | Ramble about someone, get the toast | Low | No | Yes |
 
-Family Memories won on defensibility and constraint: a generalist assistant can draft a memo, newsletter, or speech today, but it is far too complex to facilitate the desired behavior for an older family member who is not tech savvy.
+**⭐ Chosen direction.** Family Memories won on defensibility and constraint: a generalist assistant can draft a memo, newsletter, or speech today, but it is far too complex to facilitate the desired behavior for an older family member who is not tech savvy.
 
 ## 1. Who are you building for?
 
