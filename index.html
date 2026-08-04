@@ -246,7 +246,7 @@
     <div class="story-actions">
       <button class="btn-primary" onclick="saveStory()">Send my story</button>
       <p class="send-note">Your family will get your story and your original recording.</p>
-      <button class="reset-story" onclick="resetStory()">↺ Start over</button>
+      <button class="reset-story" onclick="resetStory()">↺ Start over and tell it again</button>
     </div>
   </section>
 
@@ -674,18 +674,34 @@ function seek(e){
   audioEl.currentTime = ((e.clientX-r.left)/r.width) * audioDuration;
 }
 
-/* ---------- Full reset: revert all edits to the original story ---------- */
+/* ---------- Start over: restart the whole experience (re-tell the story) ---------- */
 function resetStory(){
   openConfirm(()=>{
+    // clear the recording + all edits
     story = PARAS.map(tokenize);
     editing = null;
+    recordedURL = null;
+    recordedAt = null;
+    audioDuration = 0;
+    const a = document.getElementById('audio');
+    try{ a.pause(); }catch(e){}
+    a.removeAttribute('src'); a.load();
+    document.getElementById('player-time').textContent = '0:00 / 0:00';
+    document.getElementById('progress-fill').style.width = '0%';
+    // reset the recording screen to its starting state
+    document.getElementById('rec-start').style.display = '';
+    document.getElementById('rec-live').style.display = 'none';
+    document.getElementById('rec-fallback').style.display = 'none';
+    document.getElementById('rec-timer').textContent = '0:00';
+    document.getElementById('rec-pause').textContent = 'Pause';
     renderStory();
-    toast('Your story is back to the original.');
+    // back to the beginning — record a new telling
+    showScreen('screen-record');
   }, {
-    title:'Start over?',
-    body:"This will undo all your changes and put the story back the way it was.",
+    title:'Start over and tell it again?',
+    body:"This will clear your recording and this story so you can tell it from the start.",
     ok:'Yes, start over',
-    cancel:'Keep my changes'
+    cancel:'Keep this story'
   });
 }
 
