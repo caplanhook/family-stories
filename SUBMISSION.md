@@ -1,4 +1,4 @@
-# Voice Notes → Long-Form Writing: Take-Home Submission
+# Capturing Family Stories with Voice + AI
 
 > A weekly prompt asks an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
 
@@ -18,9 +18,10 @@ I defined the two nouns in the prompt first to clarify the scope.
 ## What's great about voice + AI
 
 - Lower barrier to entry than writing
+- Speaking is more accessible than typing for many users
 - Supports non-linear thinking. The speaker can come back to earlier ideas
 - AI can clean up thinking: untangle chronology and surface the point the speaker was circling
-- Speech preserves authentic phrasing that writing may lose
+- Speech can itself be an artifact that captures tone and personality in a way that writing may flatten
 
 ## Product Goals
 I set 3 product goals to evaluate potential directions for this take home.
