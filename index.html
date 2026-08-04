@@ -117,6 +117,8 @@
   .story-actions{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:14px}
   .story-actions .btn-primary{width:100%;max-width:360px}
   .send-note{font-size:16px;color:var(--ink-soft);text-align:center;line-height:1.5;margin:0;max-width:400px}
+  .reset-story{background:none;border:none;color:var(--ink-soft);font-family:inherit;font-size:16px;padding:8px 14px;min-height:44px;margin-top:8px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line);transition:color .2s}
+  .reset-story:hover{color:var(--accent)}
 
   /* Screen 5 — confirmation */
   .done-title{font-size:32px;line-height:1.25;text-align:center;margin:0 0 34px}
@@ -238,13 +240,13 @@
     </div>
     <audio id="audio" preload="metadata"></audio>
 
-    <p class="edit-hint">Read it over. Click any word to change it, or use “✎ Change this” to retell a whole part.</p>
+    <p class="edit-hint">Click any word to change it, or use “✎ Change this” to change a section.<br>A dotted underline is a word I wasn't sure I heard right.</p>
     <div id="story-body"></div>
-    <p class="flag-hint">A dotted underline is a word I wasn't sure I heard right.</p>
 
     <div class="story-actions">
       <button class="btn-primary" onclick="saveStory()">Send my story</button>
       <p class="send-note">Your family will get your story and your original recording.</p>
+      <button class="reset-story" onclick="resetStory()">↺ Start over</button>
     </div>
   </section>
 
@@ -670,6 +672,21 @@ function seek(e){
   if(!audioDuration) return;
   const r=document.getElementById('progress').getBoundingClientRect();
   audioEl.currentTime = ((e.clientX-r.left)/r.width) * audioDuration;
+}
+
+/* ---------- Full reset: revert all edits to the original story ---------- */
+function resetStory(){
+  openConfirm(()=>{
+    story = PARAS.map(tokenize);
+    editing = null;
+    renderStory();
+    toast('Your story is back to the original.');
+  }, {
+    title:'Start over?',
+    body:"This will undo all your changes and put the story back the way it was.",
+    ok:'Yes, start over',
+    cancel:'Keep my changes'
+  });
 }
 
 /* ---------- Save / deliver ---------- */
