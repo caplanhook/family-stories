@@ -1,5 +1,7 @@
 # Voice Notes → Long-Form Writing: Take-Home Submission
 
+> A weekly prompt asks an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
+
 ## Prompt
 
 Build a tool that turns voice notes into a written document. Focus on long-form writing.

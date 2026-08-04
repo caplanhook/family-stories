@@ -140,8 +140,16 @@
       const res = await fetch('SUBMISSION.md', {cache:'no-store'});
       if(!res.ok) throw new Error('HTTP ' + res.status);
       let md = await res.text();
+      md = md.replace(/^﻿/, '');
       // The hero already shows the title, so drop the leading "# ..." H1 from the file.
-      md = md.replace(/^﻿?\s*#\s+.*\r?\n/, '');
+      md = md.replace(/^\s*#\s+.*\r?\n/, '');
+      // Use the first blockquote as the hero lede, then remove it from the body.
+      const lede = md.match(/^\s*((?:>.*(?:\r?\n|$))+)/);
+      if (lede) {
+        const heroLede = document.querySelector('.hero .lede');
+        if (heroLede) heroLede.textContent = lede[1].replace(/^\s*>\s?/gm, '').replace(/\s*\r?\n\s*/g, ' ').trim();
+        md = md.slice(lede.index + lede[0].length);
+      }
       el.innerHTML = marked.parse(md, { gfm: true });
 
       // Wrap each table so it gets the rounded, scrollable frame.
