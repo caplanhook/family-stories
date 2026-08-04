@@ -106,8 +106,9 @@
   .word-input{font-family:inherit;font-size:22px;border:2px solid var(--accent);border-radius:8px;padding:2px 8px;min-width:60px;color:var(--ink);background:#fff}
   .chip{font-family:inherit;font-size:16px;background:#F1E9DA;border:1px solid var(--line);border-radius:20px;padding:6px 14px;color:var(--accent);white-space:nowrap}
   .chip:hover{background:#EADFC9}
-  .para-edit{opacity:.35;background:none;border:none;font-size:18px;color:var(--ink-soft);padding:2px 8px;margin-left:4px;vertical-align:middle;transition:opacity .2s}
-  #story-body p:hover .para-edit{opacity:.8}
+  .para-edit{display:inline-flex;align-items:center;gap:6px;background:none;border:1.5px solid var(--sage);color:var(--sage);font-family:inherit;font-size:15px;font-weight:600;line-height:1;padding:9px 15px;border-radius:999px;margin-left:12px;vertical-align:middle;white-space:nowrap;min-height:40px;transition:background .2s,color .2s}
+  .para-edit:hover{background:var(--sage);color:#fff}
+  .edit-hint{font-size:16px;color:var(--ink-soft);font-style:italic;text-align:center;line-height:1.5;margin:0 auto 26px;max-width:520px}
   .flag-hint{font-size:15px;color:var(--ink-soft);font-style:italic;margin:-14px 0 26px}
 
   .story-actions{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:14px}
@@ -228,8 +229,9 @@
     </div>
     <audio id="audio" preload="metadata"></audio>
 
+    <p class="edit-hint">Read it over. Tap any word to change it, or use “✎ Change this” to retell a whole part.</p>
     <div id="story-body"></div>
-    <p class="flag-hint">A dotted line means I wasn't sure I heard it right — tap the word to fix it.</p>
+    <p class="flag-hint">A dotted underline is a word I wasn't sure I heard right.</p>
 
     <div class="story-actions">
       <button class="btn-primary" onclick="saveStory()">Save my story</button>
@@ -440,7 +442,8 @@ function renderStory(){
       }
     });
     const eb=document.createElement('button');
-    eb.className='para-edit'; eb.textContent='✎'; eb.title='Change this part';
+    eb.className='para-edit'; eb.textContent='✎ Change this';
+    eb.title='Change this part'; eb.setAttribute('aria-label','Change this part');
     eb.addEventListener('click', ()=>openSheet(pi));
     p.appendChild(eb);
     body.appendChild(p);
