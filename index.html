@@ -216,7 +216,7 @@
   <!-- SCREEN 4 — STORY -->
   <section id="screen-story" class="screen">
     <h1 class="story-title">The Day I Met Your Grandfather</h1>
-    <p class="story-byline">told by Grandma · June 2026</p>
+    <p class="story-byline" id="story-byline">told by Grandma · June 2026</p>
 
     <div class="player">
       <button class="play-btn" id="play-btn" onclick="togglePlay()" aria-label="Play recording">
@@ -243,7 +243,7 @@
     <h1 class="done-title">Your story has been sent to your family.</h1>
     <div class="story-card">
       <h3>The Day I Met Your Grandfather</h3>
-      <div class="byline">told by Grandma · June 2026</div>
+      <div class="byline" id="card-byline">told by Grandma · June 2026</div>
       <p class="excerpt" id="card-excerpt"></p>
       <span class="voice-chip">
         <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2z"/></svg>
@@ -323,7 +323,7 @@ function goRecord(){ showScreen('screen-record'); }
 /* ---------- Screen 2: real recording (MediaRecorder) ---------- */
 let mediaRecorder=null, chunks=[], micStream=null;
 let recElapsed=0, recStart=0, recTimer=null, recording=false, paused=false;
-let recordedURL=null;
+let recordedURL=null, recordedAt=null;
 
 function fmt(ms){
   const s=Math.floor(ms/1000); const m=Math.floor(s/60);
@@ -379,6 +379,7 @@ function togglePause(){
 }
 function finishRecording(){
   if(!mediaRecorder) return;
+  recordedAt = new Date();
   if(!paused) recElapsed += Date.now()-recStart;
   clearInterval(recTimer);
   recording=false;
@@ -404,6 +405,7 @@ function makeSampleAudio(){
 }
 function useSample(){
   recordedURL = makeSampleAudio();
+  recordedAt = new Date();
   goProcessing();
 }
 
@@ -416,9 +418,14 @@ function goProcessing(){
 /* ---------- Screen 4: story ---------- */
 let editing = null; // {pi, ti}
 
+function bylineText(){
+  const d = recordedAt || new Date();
+  return 'told by Grandma · ' + d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
 function goStory(){
   const audio = document.getElementById('audio');
   if(recordedURL){ audio.src = recordedURL; }
+  document.getElementById('story-byline').textContent = bylineText();
   renderStory();
   showScreen('screen-story');
 }
@@ -570,6 +577,7 @@ function saveStory(){
   // build first-two-lines excerpt from the (possibly edited) story
   const first = story[0] ? story[0].map(t=>t.text).join('') : '';
   document.getElementById('card-excerpt').textContent = first;
+  document.getElementById('card-byline').textContent = bylineText();
   showScreen('screen-done');
 }
 
