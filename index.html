@@ -78,6 +78,8 @@
   .pulse .mic{width:26px;height:38px;border-radius:13px;background:#fff}
   .timer{font-variant-numeric:tabular-nums;font-size:40px;font-weight:600;letter-spacing:.02em}
   .rec-controls{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .rec-restart{background:none;border:none;color:var(--ink-soft);font-family:inherit;font-size:17px;padding:10px 16px;min-height:44px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line);transition:color .2s}
+  .rec-restart:hover{color:var(--accent)}
   .fallback{margin-top:34px;text-align:center;display:none}
 
   /* Screen 3 — processing */
@@ -200,6 +202,7 @@
           <button class="btn-quiet" id="rec-pause" onclick="togglePause()">Pause</button>
           <button class="btn-primary" onclick="finishRecording()">I'm finished</button>
         </div>
+        <button class="rec-restart" onclick="restartRecording()">↺ Start over</button>
       </div>
 
       <div id="rec-fallback" class="fallback">
@@ -284,14 +287,14 @@
   </div>
 </div>
 
-<!-- Confirm removal modal -->
+<!-- Confirm modal (reused for paragraph removal and restarting a recording) -->
 <div class="modal" id="confirm-modal">
   <div class="modal-box">
-    <h3>Take this part out?</h3>
-    <p class="confirm-sub">This paragraph will be removed from your story.</p>
+    <h3 id="confirm-title">Take this part out?</h3>
+    <p class="confirm-sub" id="confirm-sub">This paragraph will be removed from your story.</p>
     <div class="confirm-actions">
-      <button class="btn-quiet" onclick="confirmCancel()">Keep it</button>
-      <button class="btn-primary" onclick="confirmOk()">Yes, take it out</button>
+      <button class="btn-quiet" id="confirm-cancel" onclick="confirmCancel()">Keep it</button>
+      <button class="btn-primary" id="confirm-ok" onclick="confirmOk()">Yes, take it out</button>
     </div>
   </div>
 </div>
@@ -358,6 +361,9 @@ async function startRecording(){
     document.getElementById('rec-fallback').style.display='block';
     return;
   }
+  beginRecorder();
+}
+function beginRecorder(){
   chunks=[];
   try{ mediaRecorder = new MediaRecorder(micStream); }
   catch(e){ mediaRecorder = new MediaRecorder(micStream, {}); }
@@ -373,7 +379,29 @@ async function startRecording(){
   recording=true; paused=false; recElapsed=0; recStart=Date.now();
   document.getElementById('rec-start').style.display='none';
   document.getElementById('rec-live').style.display='flex';
+  document.getElementById('rec-pause').textContent='Pause';
+  const pulse=document.querySelector('#rec-live .pulse');
+  if(pulse){ pulse.style.animationPlayState=''; pulse.style.opacity='1'; }
+  clearInterval(recTimer);
   recTimer = setInterval(tickRec, 200);
+}
+function restartRecording(){
+  openConfirm(doRestart, {
+    title:'Start over?',
+    body:"This will erase what you've recorded so far and begin again.",
+    ok:'Start over',
+    cancel:'Keep recording'
+  });
+}
+function doRestart(){
+  if(mediaRecorder && mediaRecorder.state!=='inactive'){
+    mediaRecorder.onstop = null;   // discard, don't advance to processing
+    try{ mediaRecorder.stop(); }catch(e){}
+  }
+  clearInterval(recTimer);
+  recordedURL = null;
+  if(micStream && micStream.active){ beginRecorder(); }
+  else { startRecording(); }
 }
 function togglePause(){
   if(!mediaRecorder) return;
@@ -537,7 +565,12 @@ function sheetRemove(){
 
 /* ---------- Confirm-removal modal ---------- */
 let confirmCb = null;
-function openConfirm(onOk){
+function openConfirm(onOk, opts){
+  opts = opts || {};
+  document.getElementById('confirm-title').textContent = opts.title || 'Take this part out?';
+  document.getElementById('confirm-sub').textContent   = opts.body  || 'This paragraph will be removed from your story.';
+  document.getElementById('confirm-ok').textContent    = opts.ok    || 'Yes, take it out';
+  document.getElementById('confirm-cancel').textContent= opts.cancel|| 'Keep it';
   confirmCb = onOk;
   document.getElementById('confirm-modal').classList.add('active');
 }
