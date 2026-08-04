@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Family Stories</title>
+<style>
+  :root{
+    --cream:#FBF7F0;
+    --ink:#33302B;
+    --ink-soft:#6B655C;
+    --line:#E6DECF;
+    --accent:#9A5B3F;        /* warm terracotta */
+    --accent-soft:#B57A5D;
+    --sage:#6E7A5E;
+    --flag:#B08A6A;          /* muted, never red */
+    --card:#FFFFFF;
+    --shadow:0 8px 30px rgba(90,70,50,0.10);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    font-size:20px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:720px;margin:0 auto;padding:40px 24px 96px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
+  .screen{display:none;animation:fade .5s ease}
+  .screen.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  h1,h2{font-weight:600;letter-spacing:-.01em}
+  .center{text-align:center}
+  .muted{color:var(--ink-soft)}
+
+  /* Buttons */
+  button{font-family:inherit;cursor:pointer}
+  .btn-primary{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    background:var(--accent);color:#fff;border:none;border-radius:16px;
+    font-size:22px;font-weight:600;padding:20px 34px;min-height:64px;
+    box-shadow:var(--shadow);transition:transform .12s ease,background .2s ease;
+  }
+  .btn-primary:hover{background:var(--accent-soft)}
+  .btn-primary:active{transform:translateY(1px)}
+  .btn-quiet{
+    background:transparent;border:1.5px solid var(--line);color:var(--ink-soft);
+    border-radius:14px;font-size:19px;padding:16px 24px;min-height:56px;transition:border-color .2s;
+  }
+  .btn-quiet:hover{border-color:var(--accent-soft);color:var(--ink)}
+
+  /* Screen 1 — email */
+  .email{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+  .email-head{padding:22px 28px;border-bottom:1px solid var(--line)}
+  .email-title{font-size:18px;font-weight:600;color:var(--accent)}
+  .email-from{font-size:17px;color:var(--ink-soft);margin-top:4px}
+  .email-body{padding:34px 30px 40px}
+  .email-prompt{font-size:30px;line-height:1.35;font-weight:600;margin:0 0 18px}
+  .email-note{font-size:20px;color:var(--ink-soft);margin:0 0 32px}
+
+  /* Screen 2 — record */
+  .rec-prompt{font-size:26px;line-height:1.4;font-weight:600;text-align:center;margin:0 auto 46px;max-width:560px}
+  .rec-stage{display:flex;flex-direction:column;align-items:center;gap:30px}
+  .rec-btn{
+    width:150px;height:150px;border-radius:50%;border:none;background:var(--accent);color:#fff;
+    box-shadow:0 10px 34px rgba(154,91,63,.35);font-size:19px;font-weight:600;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;transition:transform .15s;
+  }
+  .rec-btn:hover{transform:scale(1.03)}
+  .rec-btn .dot{width:34px;height:34px;border-radius:50%;background:#fff}
+  .live{display:none;flex-direction:column;align-items:center;gap:26px}
+  .pulse{width:120px;height:120px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;position:relative}
+  .pulse::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);opacity:.35;animation:pulse 1.8s ease-out infinite}
+  @keyframes pulse{0%{transform:scale(1);opacity:.35}100%{transform:scale(1.8);opacity:0}}
+  .pulse .mic{width:26px;height:38px;border-radius:13px;background:#fff}
+  .timer{font-variant-numeric:tabular-nums;font-size:40px;font-weight:600;letter-spacing:.02em}
+  .rec-controls{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+  .fallback{margin-top:34px;text-align:center;display:none}
+
+  /* Screen 3 — processing */
+  .proc{display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center;padding:60px 0}
+  .proc-title{font-size:28px;font-weight:600}
+  .spinner{width:56px;height:56px;border-radius:50%;border:5px solid var(--line);border-top-color:var(--accent);animation:spin 1s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* Screen 4 — story */
+  .story-title{font-size:36px;line-height:1.2;margin:0 0 6px}
+  .story-byline{font-style:italic;color:var(--ink-soft);font-size:20px;margin:0 0 26px}
+  .player{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:16px;margin-bottom:34px}
+  .play-btn{flex:0 0 auto;width:56px;height:56px;border-radius:50%;background:var(--sage);border:none;color:#fff;display:flex;align-items:center;justify-content:center}
+  .play-btn svg{width:22px;height:22px;fill:#fff}
+  .player-main{flex:1;min-width:0}
+  .player-label{font-size:16px;color:var(--ink-soft);margin-bottom:8px}
+  .progress{height:8px;background:var(--line);border-radius:5px;overflow:hidden;cursor:pointer}
+  .progress-fill{height:100%;width:0;background:var(--sage);border-radius:5px;transition:width .1s linear}
+
+  #story-body p{font-size:22px;line-height:1.72;margin:0 0 22px;position:relative}
+  .word{cursor:text;border-radius:4px;padding:0 1px;transition:background .15s}
+  .word:hover{background:#F0E7D6}
+  .word.flagged{border-bottom:2px dotted var(--flag);cursor:pointer}
+  .word.flagged:hover{background:#F3E7D8}
+  .edit-wrap{display:inline-flex;align-items:center;gap:8px}
+  .word-input{font-family:inherit;font-size:22px;border:2px solid var(--accent);border-radius:8px;padding:2px 8px;min-width:60px;color:var(--ink);background:#fff}
+  .chip{font-family:inherit;font-size:16px;background:#F1E9DA;border:1px solid var(--line);border-radius:20px;padding:6px 14px;color:var(--accent);white-space:nowrap}
+  .chip:hover{background:#EADFC9}
+  .para-edit{opacity:.35;background:none;border:none;font-size:18px;color:var(--ink-soft);padding:2px 8px;margin-left:4px;vertical-align:middle;transition:opacity .2s}
+  #story-body p:hover .para-edit{opacity:.8}
+  .flag-hint{font-size:15px;color:var(--ink-soft);font-style:italic;margin:-14px 0 26px}
+
+  .story-actions{margin-top:40px;display:flex;flex-direction:column;align-items:center;gap:14px}
+  .story-actions .btn-primary{width:100%;max-width:360px}
+
+  /* Screen 5 — confirmation */
+  .done-title{font-size:32px;line-height:1.25;text-align:center;margin:0 0 34px}
+  .story-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:26px 26px 22px;margin-bottom:34px}
+  .story-card h3{font-size:24px;margin:0 0 4px}
+  .story-card .byline{font-style:italic;color:var(--ink-soft);font-size:17px;margin:0 0 14px}
+  .story-card .excerpt{font-size:19px;color:var(--ink);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:0 0 16px}
+  .voice-chip{display:inline-flex;align-items:center;gap:8px;font-size:16px;color:var(--sage);font-weight:600}
+  .voice-chip svg{width:16px;height:16px;fill:var(--sage)}
+  .prog-label{font-size:18px;color:var(--ink-soft);margin:0 0 8px}
+  .prog-track{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-bottom:30px}
+  .prog-bar{height:100%;background:var(--sage);border-radius:6px}
+  .teaser{text-align:center;font-size:20px;color:var(--ink-soft);font-style:italic}
+
+  /* Bottom sheet */
+  .overlay{position:fixed;inset:0;background:rgba(45,38,30,.4);display:none;align-items:flex-end;justify-content:center;z-index:40}
+  .overlay.active{display:flex}
+  .sheet{background:var(--cream);width:100%;max-width:560px;border-radius:24px 24px 0 0;padding:26px 24px 34px;box-shadow:0 -10px 40px rgba(0,0,0,.18);animation:up .28s ease}
+  @keyframes up{from{transform:translateY(40px);opacity:.6}to{transform:none;opacity:1}}
+  .sheet h3{font-size:22px;margin:0 0 4px;text-align:center}
+  .sheet .sub{text-align:center;color:var(--ink-soft);font-size:17px;margin:0 0 22px}
+  .sheet-opt{display:flex;align-items:center;gap:14px;width:100%;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;font-size:20px;color:var(--ink);text-align:left;margin-bottom:14px;min-height:64px;transition:border-color .2s}
+  .sheet-opt:hover{border-color:var(--accent-soft)}
+  .sheet-opt .ic{font-size:24px;flex:0 0 auto}
+  .sheet-cancel{display:block;margin:8px auto 0;background:none;border:none;color:var(--ink-soft);font-size:18px;padding:12px}
+
+  /* Mini recorder modal */
+  .modal{position:fixed;inset:0;background:rgba(45,38,30,.45);display:none;align-items:center;justify-content:center;z-index:50}
+  .modal.active{display:flex}
+  .modal-box{background:var(--cream);border-radius:22px;padding:36px 30px;width:100%;max-width:420px;margin:0 20px;text-align:center;box-shadow:var(--shadow)}
+  .modal-box h3{font-size:23px;margin:0 0 24px}
+  .mini-pulse{width:96px;height:96px;border-radius:50%;background:var(--accent);margin:0 auto 22px;position:relative;display:flex;align-items:center;justify-content:center}
+  .mini-pulse::before{content:"";position:absolute;inset:0;border-radius:50%;background:var(--accent);opacity:.35;animation:pulse 1.8s ease-out infinite}
+  .mini-pulse .mic{width:22px;height:32px;border-radius:11px;background:#fff}
+  .mini-timer{font-variant-numeric:tabular-nums;font-size:30px;font-weight:600;margin-bottom:26px}
+
+  /* Toasts */
+  .toasts{position:fixed;left:0;right:0;bottom:26px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:60;pointer-events:none}
+  .toast{background:var(--ink);color:#fff;border-radius:14px;padding:14px 20px;font-size:17px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;max-width:90%;pointer-events:auto;animation:fade .3s ease}
+  .toast button{background:none;border:none;color:#F0C9A8;font-weight:700;font-size:17px;font-family:inherit}
+
+  @media (max-width:600px){
+    body{font-size:19px}
+    .app{padding:26px 18px 90px;justify-content:flex-start}
+    .story-title{font-size:30px}
+    .email-prompt{font-size:26px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- SCREEN 1 — EMAIL -->
+  <section id="screen-email" class="screen active">
+    <div class="email">
+      <div class="email-head">
+        <div class="email-title">Family Stories — a note for Margaret</div>
+        <div class="email-from">From Brett</div>
+      </div>
+      <div class="email-body">
+        <p class="email-prompt">Tell me about the day you met Grandpa.</p>
+        <p class="email-note">Take your time. Just talk — I'll turn it into a story for the family.</p>
+        <button class="btn-primary" onclick="goRecord()">Tell this story</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2 — RECORD -->
+  <section id="screen-record" class="screen">
+    <p class="rec-prompt">Tell me about the day you met Grandpa.</p>
+    <div class="rec-stage">
+      <button id="rec-start" class="rec-btn" onclick="startRecording()">
+        <span class="dot"></span>
+        <span>Start</span>
+      </button>
+
+      <div id="rec-live" class="live">
+        <div class="pulse"><span class="mic"></span></div>
+        <div class="timer" id="rec-timer">0:00</div>
+        <div class="rec-controls">
+          <button class="btn-quiet" id="rec-pause" onclick="togglePause()">Pause</button>
+          <button class="btn-primary" onclick="finishRecording()">I'm finished</button>
+        </div>
+      </div>
+
+      <div id="rec-fallback" class="fallback">
+        <p class="muted" style="max-width:420px;margin:0 auto 18px">I couldn't reach your microphone — that's alright. We can use a sample recording so you can see the rest.</p>
+        <button class="btn-primary" onclick="useSample()">Use sample recording</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 3 — PROCESSING -->
+  <section id="screen-processing" class="screen">
+    <div class="proc">
+      <div class="spinner"></div>
+      <div class="proc-title">Making your story…</div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4 — STORY -->
+  <section id="screen-story" class="screen">
+    <h1 class="story-title">The Day I Met Your Grandfather</h1>
+    <p class="story-byline">told by Margaret · June 2026</p>
+
+    <div class="player">
+      <button class="play-btn" id="play-btn" onclick="togglePlay()" aria-label="Play recording">
+        <svg id="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <div class="player-main">
+        <div class="player-label">Margaret's original recording</div>
+        <div class="progress" id="progress" onclick="seek(event)"><div class="progress-fill" id="progress-fill"></div></div>
+      </div>
+    </div>
+    <audio id="audio" preload="metadata"></audio>
+
+    <div id="story-body"></div>
+    <p class="flag-hint">A dotted line means I wasn't sure I heard it right — tap the word to fix it.</p>
+
+    <div class="story-actions">
+      <button class="btn-primary" onclick="saveStory()">Save my story</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 5 — CONFIRMATION -->
+  <section id="screen-done" class="screen">
+    <h1 class="done-title">Your story has been sent to your family.</h1>
+    <div class="story-card">
+      <h3>The Day I Met Your Grandfather</h3>
+      <div class="byline">told by Margaret · June 2026</div>
+      <p class="excerpt" id="card-excerpt"></p>
+      <span class="voice-chip">
+        <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2z"/></svg>
+        includes Margaret's voice
+      </span>
+    </div>
+    <div class="prog-label">Story 3 of 52</div>
+    <div class="prog-track"><div class="prog-bar" style="width:5.77%"></div></div>
+    <p class="teaser">Next week I'll ask about your first job.</p>
+  </section>
+
+</div>
+
+<!-- Paragraph bottom sheet -->
+<div class="overlay" id="sheet-overlay">
+  <div class="sheet">
+    <h3>Change this part</h3>
+    <p class="sub">What would you like to do?</p>
+    <button class="sheet-opt" onclick="sheetNotRight()"><span class="ic">🎙️</span> That's not quite right</button>
+    <button class="sheet-opt" onclick="sheetRemove()"><span class="ic">✂️</span> Take this out</button>
+    <button class="sheet-opt" onclick="sheetAdd()"><span class="ic">➕</span> I want to add something</button>
+    <button class="sheet-cancel" onclick="closeSheet()">Never mind</button>
+  </div>
+</div>
+
+<!-- Mini recorder modal -->
+<div class="modal" id="mini-modal">
+  <div class="modal-box">
+    <h3 id="mini-title">Tell it again, just this part</h3>
+    <div class="mini-pulse"><span class="mic"></span></div>
+    <div class="mini-timer" id="mini-timer">0:00</div>
+    <button class="btn-primary" onclick="finishMini()">I'm finished</button>
+  </div>
+</div>
+
+<div class="toasts" id="toasts"></div>
+
+<script>
+/* ---------- Canned story content (§5.2, verbatim; flags computed dynamically) ---------- */
+const PARAS = [
+  "It had to be 1953, because Eleanor was already married by then and her wedding was the summer before. There was a dance at St. Casimir's, the parish hall — they had them every month.",
+  "I didn't even want to go. I had a cold. My mother said the air would do me good, which made no sense at all, but you didn't argue with my mother. Ruth Kowalski — she lived two doors down from us on Mitchell Street — dragged me along because she was sweet on a boy named Stanley and she didn't want to go alone.",
+  "So we get there and it's crowded and hot and I'm standing by the coat racks feeling sorry for myself, and this young man comes over. I thought he was coming to talk to Ruth, because everyone always came to talk to Ruth. And he asks ME to dance. Me! With my red nose. I said, I remember exactly, I said “I have a terrible cold, you'll catch it,” and he said “then I'll have something of yours to keep.” Fresh! I thought he was so fresh. But I danced with him.",
+  "He was a terrible dancer, God love him. He stepped on my foot twice and apologized both times like he'd broken it. His name was Henry. Your grandfather.",
+  "I found out later he'd asked the band to play a slow one. He never admitted it, but Stanley told Ruth and Ruth told me. Fifty-two years and he never admitted it. And Ruth married her Stanley the next spring, so I suppose that dance worked out for everybody — Ruth Kowalski most of all."
+];
+
+/* §5.3 alternate paragraph 4 (canned re-dictation) */
+const ALT_P4 = "He was a terrible dancer, God love him. He stepped on my foot twice — the second time I laughed, and that's when I really looked at him. He had kind eyes. His name was Henry. Your grandfather.";
+
+/* Tokenize into word / non-word tokens so edits + propagation work cleanly */
+function tokenize(text){
+  const parts = text.match(/[A-Za-z0-9']+|[^A-Za-z0-9']+/g) || [];
+  return parts.map(t => ({ text:t, isWord:/[A-Za-z0-9]/.test(t) }));
+}
+let story = PARAS.map(tokenize);
+
+/* Flagging: dynamic — a word is flagged only while it still reads as the mis-heard value */
+function isFlagged(w){
+  const l = w.toLowerCase();
+  return l === 'kowalski' || w === '1953';
+}
+function suggestionFor(w){
+  if (w.toLowerCase() === 'kowalski') return 'Kowalsky';
+  if (w === '1953') return '1935';
+  return null;
+}
+
+/* ---------- Screen routing ---------- */
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goRecord(){ showScreen('screen-record'); }
+
+/* ---------- Screen 2: real recording (MediaRecorder) ---------- */
+let mediaRecorder=null, chunks=[], micStream=null;
+let recElapsed=0, recStart=0, recTimer=null, recording=false, paused=false;
+let recordedURL=null;
+
+function fmt(ms){
+  const s=Math.floor(ms/1000); const m=Math.floor(s/60);
+  return m + ':' + String(s%60).padStart(2,'0');
+}
+function tickRec(){
+  document.getElementById('rec-timer').textContent = fmt(recElapsed + (Date.now()-recStart));
+}
+async function startRecording(){
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    // Graceful fallback — offer the sample recording
+    document.getElementById('rec-start').style.display='none';
+    document.getElementById('rec-fallback').style.display='block';
+    return;
+  }
+  chunks=[];
+  try{ mediaRecorder = new MediaRecorder(micStream); }
+  catch(e){ mediaRecorder = new MediaRecorder(micStream, {}); }
+  mediaRecorder.ondataavailable = e => { if(e.data && e.data.size) chunks.push(e.data); };
+  mediaRecorder.onstop = () => {
+    if(chunks.length){
+      const blob = new Blob(chunks, {type: chunks[0].type || 'audio/webm'});
+      recordedURL = URL.createObjectURL(blob);
+    }
+    goProcessing();
+  };
+  mediaRecorder.start();
+  recording=true; paused=false; recElapsed=0; recStart=Date.now();
+  document.getElementById('rec-start').style.display='none';
+  document.getElementById('rec-live').style.display='flex';
+  recTimer = setInterval(tickRec, 200);
+}
+function togglePause(){
+  if(!mediaRecorder) return;
+  const btn=document.getElementById('rec-pause');
+  const pulse=document.querySelector('#rec-live .pulse');
+  if(!paused){
+    mediaRecorder.pause(); paused=true;
+    recElapsed += Date.now()-recStart;
+    clearInterval(recTimer);
+    btn.textContent='Resume';
+    pulse.style.animationPlayState='paused';
+    pulse.style.opacity='.6';
+  } else {
+    mediaRecorder.resume(); paused=false;
+    recStart=Date.now();
+    recTimer=setInterval(tickRec,200);
+    btn.textContent='Pause';
+    pulse.style.opacity='1';
+  }
+}
+function finishRecording(){
+  if(!mediaRecorder) return;
+  if(!paused) recElapsed += Date.now()-recStart;
+  clearInterval(recTimer);
+  recording=false;
+  try{ mediaRecorder.stop(); }catch(e){ goProcessing(); }
+  if(micStream) micStream.getTracks().forEach(t=>t.stop());
+}
+
+/* Sample-audio fallback: a soft, real, playable WAV generated in-page */
+function makeSampleAudio(){
+  const sr=8000, dur=3, n=sr*dur;
+  const buf=new ArrayBuffer(44+n*2), dv=new DataView(buf);
+  const ws=(o,s)=>{ for(let i=0;i<s.length;i++) dv.setUint8(o+i, s.charCodeAt(i)); };
+  ws(0,'RIFF'); dv.setUint32(4,36+n*2,true); ws(8,'WAVE'); ws(12,'fmt ');
+  dv.setUint32(16,16,true); dv.setUint16(20,1,true); dv.setUint16(22,1,true);
+  dv.setUint32(24,sr,true); dv.setUint32(28,sr*2,true); dv.setUint16(32,2,true); dv.setUint16(34,16,true);
+  ws(36,'data'); dv.setUint32(40,n*2,true);
+  for(let i=0;i<n;i++){
+    const t=i/sr, env=Math.min(1,t*3,(dur-t)*3);
+    const s=(Math.sin(2*Math.PI*196*t)+0.5*Math.sin(2*Math.PI*294*t))*0.11*env;
+    dv.setInt16(44+i*2, Math.max(-1,Math.min(1,s))*32767, true);
+  }
+  return URL.createObjectURL(new Blob([buf],{type:'audio/wav'}));
+}
+function useSample(){
+  recordedURL = makeSampleAudio();
+  goProcessing();
+}
+
+/* ---------- Screen 3: processing ---------- */
+function goProcessing(){
+  showScreen('screen-processing');
+  setTimeout(goStory, 2500);
+}
+
+/* ---------- Screen 4: story ---------- */
+let editing = null; // {pi, ti}
+
+function goStory(){
+  const audio = document.getElementById('audio');
+  if(recordedURL){ audio.src = recordedURL; }
+  renderStory();
+  showScreen('screen-story');
+}
+
+function renderStory(){
+  const body = document.getElementById('story-body');
+  body.innerHTML='';
+  story.forEach((para, pi)=>{
+    const p=document.createElement('p');
+    para.forEach((tok, ti)=>{
+      if(!tok.isWord){ p.appendChild(document.createTextNode(tok.text)); return; }
+      if(editing && editing.pi===pi && editing.ti===ti){
+        p.appendChild(buildEditor(pi, ti, tok));
+      } else {
+        const span=document.createElement('span');
+        span.className='word' + (isFlagged(tok.text) ? ' flagged' : '');
+        span.textContent=tok.text;
+        if(isFlagged(tok.text)) span.title='I might have misheard this — tap to fix.';
+        span.addEventListener('click', ()=>openEditor(pi, ti));
+        p.appendChild(span);
+      }
+    });
+    const eb=document.createElement('button');
+    eb.className='para-edit'; eb.textContent='✎'; eb.title='Change this part';
+    eb.addEventListener('click', ()=>openSheet(pi));
+    p.appendChild(eb);
+    body.appendChild(p);
+  });
+}
+
+function openEditor(pi, ti){ editing={pi,ti}; renderStory();
+  const inp=document.querySelector('.word-input'); if(inp){ inp.focus(); inp.select(); }
+}
+function buildEditor(pi, ti, tok){
+  const wrap=document.createElement('span'); wrap.className='edit-wrap';
+  const input=document.createElement('input'); input.className='word-input'; input.value=tok.text;
+  input.addEventListener('keydown', e=>{
+    if(e.key==='Enter'){ e.preventDefault(); commitEdit(pi,ti,input.value); }
+    if(e.key==='Escape'){ editing=null; renderStory(); }
+  });
+  input.addEventListener('blur', ()=>{ if(editing) commitEdit(pi,ti,input.value); });
+  wrap.appendChild(input);
+  const sug=suggestionFor(tok.text);
+  if(sug){
+    const chip=document.createElement('button'); chip.className='chip'; chip.textContent=sug;
+    chip.addEventListener('mousedown', e=>{ e.preventDefault(); commitEdit(pi,ti,sug); });
+    wrap.appendChild(chip);
+  }
+  return wrap;
+}
+function commitEdit(pi, ti, val){
+  const orig = story[pi][ti].text;
+  val = (val||'').trim();
+  editing = null;
+  if(!val || val===orig){ renderStory(); return; }
+  const key = orig.toLowerCase();
+  let count = 0;
+  story.forEach(para => para.forEach(t => {
+    if(t.isWord && t.text.toLowerCase()===key){ t.text=val; count++; }
+  }));
+  renderStory();
+  if(count>1) toast(`‘${orig}’ appears ${count} times — updated all.`);
+}
+
+/* ---------- Screen 4: paragraph-level (Tier 2) ---------- */
+let sheetPi = null;
+function openSheet(pi){ sheetPi=pi; document.getElementById('sheet-overlay').classList.add('active'); }
+function closeSheet(){ document.getElementById('sheet-overlay').classList.remove('active'); }
+document.getElementById('sheet-overlay').addEventListener('click', e=>{
+  if(e.target.id==='sheet-overlay') closeSheet();
+});
+
+function sheetNotRight(){
+  const pi=sheetPi; closeSheet();
+  openMini("Tell it again, just this part", ()=>{
+    if(pi===3){ story[3]=tokenize(ALT_P4); renderStory(); toast('Your new telling is saved.'); }
+    else { toast('Re-telling saved.'); }
+  });
+}
+function sheetRemove(){
+  const pi=sheetPi; closeSheet();
+  const removed = story[pi];
+  story.splice(pi,1);
+  renderStory();
+  toast('Paragraph removed.', 'Undo', ()=>{
+    story.splice(pi,0,removed); renderStory();
+  }, 5000);
+}
+function sheetAdd(){
+  closeSheet();
+  openMini("Tell me what to add", ()=>{
+    toast("Added to your story — I'll weave it in.");
+  });
+}
+
+/* ---------- Mini recorder (used by Tier 2 options 1 & 3) ---------- */
+let miniRec=null, miniStream=null, miniTimer=null, miniStart=0, miniDone=null;
+function openMini(title, onDone){
+  miniDone = onDone;
+  document.getElementById('mini-title').textContent = title;
+  document.getElementById('mini-timer').textContent = '0:00';
+  document.getElementById('mini-modal').classList.add('active');
+  miniStart = Date.now();
+  miniTimer = setInterval(()=>{
+    document.getElementById('mini-timer').textContent = fmt(Date.now()-miniStart);
+  }, 200);
+  navigator.mediaDevices.getUserMedia({audio:true}).then(stream=>{
+    miniStream=stream;
+    try{ miniRec=new MediaRecorder(stream); miniRec.start(); }catch(e){}
+  }).catch(()=>{ /* no mic — the interaction still completes gracefully */ });
+}
+function finishMini(){
+  clearInterval(miniTimer);
+  if(miniRec && miniRec.state!=='inactive'){ try{ miniRec.stop(); }catch(e){} }
+  if(miniStream) miniStream.getTracks().forEach(t=>t.stop());
+  document.getElementById('mini-modal').classList.remove('active');
+  const cb=miniDone; miniDone=null;
+  if(cb) cb();
+}
+
+/* ---------- Audio player ---------- */
+let playing=false;
+const audioEl = document.getElementById('audio');
+function togglePlay(){
+  if(!audioEl.src){ toast('No recording to play on this run.'); return; }
+  if(playing){ audioEl.pause(); } else { audioEl.play(); }
+}
+audioEl.addEventListener('play', ()=>{ playing=true; setPlayIcon(true); });
+audioEl.addEventListener('pause', ()=>{ playing=false; setPlayIcon(false); });
+audioEl.addEventListener('ended', ()=>{ playing=false; setPlayIcon(false); });
+audioEl.addEventListener('timeupdate', ()=>{
+  if(audioEl.duration) document.getElementById('progress-fill').style.width =
+    (audioEl.currentTime/audioEl.duration*100)+'%';
+});
+function setPlayIcon(on){
+  document.getElementById('play-icon').innerHTML = on
+    ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'
+    : '<path d="M8 5v14l11-7z"/>';
+}
+function seek(e){
+  if(!audioEl.duration) return;
+  const r=document.getElementById('progress').getBoundingClientRect();
+  audioEl.currentTime = ((e.clientX-r.left)/r.width) * audioEl.duration;
+}
+
+/* ---------- Save / deliver ---------- */
+function saveStory(){
+  // build first-two-lines excerpt from the (possibly edited) story
+  const first = story[0] ? story[0].map(t=>t.text).join('') : '';
+  document.getElementById('card-excerpt').textContent = first;
+  showScreen('screen-done');
+}
+
+/* ---------- Toasts ---------- */
+function toast(msg, actionLabel, actionFn, dur){
+  dur = dur || 3200;
+  const el=document.createElement('div'); el.className='toast';
+  const span=document.createElement('span'); span.textContent=msg; el.appendChild(span);
+  if(actionLabel){
+    const b=document.createElement('button'); b.textContent=actionLabel;
+    b.addEventListener('click', ()=>{ actionFn&&actionFn(); el.remove(); });
+    el.appendChild(b);
+  }
+  document.getElementById('toasts').appendChild(el);
+  setTimeout(()=>{ el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, dur);
+}
+</script>
+</body>
+</html>
