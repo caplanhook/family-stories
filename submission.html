@@ -106,8 +106,7 @@
 
 <main>
   <header class="hero">
-    <p class="eyebrow">Take-Home Submission</p>
-    <h1>Voice Notes → Long-Form Writing</h1>
+    <h1>Take Home: Capturing Family Stories with Voice + AI</h1>
     <p class="lede">A weekly prompt asks an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.</p>
   </header>
 
@@ -139,8 +138,13 @@
       if(!res.ok) throw new Error('HTTP ' + res.status);
       let md = await res.text();
       md = md.replace(/^﻿/, '');
-      // The hero already shows the title, so drop the leading "# ..." H1 from the file.
-      md = md.replace(/^\s*#\s+.*\r?\n/, '');
+      // Use the file's H1 as the hero title, then remove it from the body.
+      const h1 = md.match(/^\s*#\s+(.*?)\s*\r?\n/);
+      if (h1) {
+        const heroTitle = document.querySelector('.hero h1');
+        if (heroTitle) heroTitle.textContent = h1[1];
+        md = md.slice(h1.index + h1[0].length);
+      }
       // Use the first blockquote as the hero lede, then remove it from the body.
       const lede = md.match(/^\s*((?:>.*(?:\r?\n|$))+)/);
       if (lede) {
