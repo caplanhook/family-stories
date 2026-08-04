@@ -44,23 +44,36 @@ I set 3 product goals to evaluate potential directions for this take home.
 
 Three user groups under consideration:
 
+- **User:** Storyteller, someone in their 60s or older. Comfortable with email but not technically savvy.
 - **Buyer:** Adult child, someone in their 20s through 50s who realizes their parent's stories exist only in that parent's head
-- **User:** Storyteller, someone in their 70s or older. Comfortable with email but not technically savvy.
 - **Audience:** The rest of the family. Mix of ages and technical fluencies.
 
-I built the prototype entirely for the storyteller, because the core UX challenge of the product is making it easy for the older user to record themselves and edit the result prior to publishing. Every design decision serves someone who will abandon the product when there is unnecessary friction: the emailed link is the auth (no login anywhere), there is one primary action per screen, and composition never requires typing. Keyboards appear only for word-level corrections; anything story-sized is done by talking. The buyer and audience sides are real product surface, but they are conventional product surface. The storyteller's experience is the part that has to be invented, so it is the part I prototyped.
+I built the prototype entirely for the storyteller, because the core UX challenge of the product is making it easy for the older user to record themselves and edit the result prior to publishing. 
+
+Every product and design decision serves someone who will abandon the product when there is unnecessary friction:
+
+-   The emailed link is the auth (no login anywhere)
+-   There is one primary action per screen, and composition never requires typing.
+-   Flow and typography optimized for multiple devices and screen sizes 
+-   Keyboards appear only for word-level corrections; anything story-sized is done by talking.
 
 ## 2. What's the most important thing to get right?
 
-The most important feature is preserving the voice of the author. AI has a tendency to flatten the author's voice into more generic prose, and this is the one product where that failure is fatal: the written story will outlive the product and probably the speaker. The system's core rule is to **reorder and stitch, never rewrite**: the AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it should not meaningfully change the phrasing. In the demo story, every sentence is verbatim from the transcript.
+The most important feature is preserving the voice of the author. As proposed, this tool preserves the speaker's voice in three ways:
+- Focus the AI on **reordering and stitching, never rewriting**: the AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it should not meaningfully change the phrasing.
+- Always **provide the ground truth**. The original recording to every story provides both a sentimental artifact the family will treasure and proof that the AI is reflecting what the user actually said.
+- **Acknowledge uncertainty**. Transcription often fails with proper nouns (e.g. names, places) which will frequently pop up in family stories. The prototype nudges the user to correct low-confidence transcriptions, which will allow the system to build a personalized corpus of important people and places over the subscription.
 
-The second half of getting this right is honesty about uncertainty. Transcription fails most on exactly what family stories are dense with (names, dates, places), and silently guessing wrong on a family surname is the worst possible failure. So the prototype flags low-confidence words rather than papering over them, including a seeded case where the storyteller self-corrects a year mid-ramble and the system flags it instead of guessing. Corrections propagate (fix a surname once, it updates everywhere), and edit interfaces match the edit's granularity: keyboard for word-level precision, voice for story-level changes.
-
-Attaching the original recording to every story provides both a sentimental artifact the family will treasure and the ground truth that proves the AI is being truthful.
 
 ## 3. What would this look like with 5 engineers and 3 months?
 
-**North star metric:** a family member rates the story as "sounds like her." Supporting funnel: prompt opened → recording completed → story saved → family opened → reaction sent → next week's recording completed.
+**North star metric:** WAU Rate (Active Users / Subscribed Users)
+This is the preferred success metric because it captures activation + retention on the relevant cadence for the subscription.
+
+Secondary:
+- AI Quality: Prompt family members for feedback "Does this sound like grandma?"
+- Engagement: Story completion rate (% of users who finish the story funnel after starting a recording)
+
 
 ### Month 1: Quality loop and foundations
 
