@@ -109,3 +109,4 @@ The most important thing to get right is **preserving the author's voice.** Gene
 | In-app social layer (comments, likes, feeds) and public sharing | Little sustained value over a family member simply texting Grandma, and it forces yet another platform on people to learn. This is a private ritual, not a content platform; family delivery stays read-only. |
 | Multi-author composition (Grandma + Grandpa in one story) | Adds real feature complexity and makes activation harder. A family that wants both voices is served by two subscriptions. |
 | Rich-text / keyboard composition | The storyteller composes by talking; the keyboard exists only for word-level corrections, never for authoring. |
+| Multi-language support | We should monitor community feedback and interest in supporting additional languages before supporting this feature. |
