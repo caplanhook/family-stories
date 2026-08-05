@@ -161,6 +161,7 @@
   .confirm-actions .btn-quiet,.confirm-actions .btn-primary{flex:1;min-width:150px;justify-content:center}
 
   /* Toasts */
+  #confetti{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:100;display:none}
   .toasts{position:fixed;left:0;right:0;bottom:26px;display:flex;flex-direction:column;align-items:center;gap:10px;z-index:60;pointer-events:none}
   .toast{background:var(--ink);color:#fff;border-radius:14px;padding:14px 20px;font-size:17px;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;max-width:90%;pointer-events:auto;animation:fade .3s ease}
   .toast button{background:none;border:none;color:#F0C9A8;font-weight:700;font-size:17px;font-family:inherit}
@@ -227,7 +228,7 @@
 
   <!-- SCREEN 4 — STORY -->
   <section id="screen-story" class="screen">
-    <div class="demo-banner">Your recording is real. The story below is a sample for this demo. The real product transcribes and restructures your story.</div>
+    <div class="demo-banner">Your recording is real. The story below is a sample for this demo. The production app would transcribe and restructure your story.</div>
     <h1 class="story-title">The Day I Met Your Grandfather</h1>
     <p class="story-byline" id="story-byline">told by Grandma · June 2026</p>
 
@@ -306,6 +307,7 @@
   </div>
 </div>
 
+<canvas id="confetti"></canvas>
 <div class="toasts" id="toasts"></div>
 
 <script>
@@ -715,6 +717,53 @@ function saveStory(){
   document.getElementById('card-excerpt').textContent = first;
   document.getElementById('card-byline').textContent = bylineText();
   showScreen('screen-done');
+  launchConfetti();
+}
+
+/* ---------- Confetti (final screen celebration) ---------- */
+function launchConfetti(){
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const W = window.innerWidth || document.documentElement.clientWidth || 1024;
+  const H = window.innerHeight || document.documentElement.clientHeight || 768;
+  canvas.width = W*dpr; canvas.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  canvas.style.display = 'block';
+  const colors = ['#9A5B3F','#B57A5D','#6E7A5E','#C9A66B','#B08A6A','#E6DECF'];
+  const pieces = [];
+  for(let i=0;i<150;i++){
+    pieces.push({
+      x: Math.random()*W,
+      y: -20 - Math.random()*H*0.6,
+      w: 6+Math.random()*6, h: 8+Math.random()*8,
+      color: colors[i % colors.length],
+      rot: Math.random()*Math.PI, vr: (Math.random()-0.5)*0.22,
+      vy: 2+Math.random()*3.2, vx: (Math.random()-0.5)*1.4,
+      sway: Math.random()*Math.PI*2
+    });
+  }
+  const start = Date.now(), DURATION = 3600;
+  function frame(){
+    const elapsed = Date.now()-start;
+    ctx.clearRect(0,0,W,H);
+    const fade = elapsed > DURATION-900 ? Math.max(0,(DURATION-elapsed)/900) : 1;
+    pieces.forEach(p=>{
+      p.sway += 0.02;
+      p.x += p.vx + Math.sin(p.sway)*0.7;
+      p.y += p.vy;
+      p.rot += p.vr;
+      ctx.save();
+      ctx.globalAlpha = fade;
+      ctx.translate(p.x,p.y); ctx.rotate(p.rot);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    if(elapsed < DURATION){ requestAnimationFrame(frame); }
+    else { ctx.clearRect(0,0,W,H); canvas.style.display='none'; }
+  }
+  requestAnimationFrame(frame);
 }
 
 /* ---------- Toasts ---------- */
