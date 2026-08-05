@@ -81,11 +81,13 @@ The most important thing to get right is **preserving the author's voice.** Gene
 - Entity handling: per-family name dictionary (people, places) that improves transcription and powers confidence flagging
 - Productionize the storyteller flow from the prototype, plus basic family delivery (story + audio via email/link)
 - Instrument the full funnel from day one
+- **Read-only family view:** family members receive, read, and listen to each story, but never edit it
+- **Starter questions at purchase:** the buyer chooses which questions Grandma will be asked, as part of the gifting flow
 
 ### Month 2: The full loop and the interviewer
 
 - **Buyer experience:** onboarding, gifting flow, prompt library, prompt scheduling and personalization
-- **Family feed:** stories arrive weekly with reactions and comments, routed back to the storyteller as encouragement ("Mom, I never knew that!" is the retention engine)
+- **Browsable story library:** a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement. No comments or likes (see *What I deprioritized*)
 - **The AI interviewer (the moat):**
   - Generates next week's prompt from this week's story ("you mentioned Ruth three times; tell me about Ruth")
   - Builds an entity graph across stories (people, places, eras) so the corpus deepens instead of just accumulating
@@ -97,7 +99,7 @@ The most important thing to get right is **preserving the author's voice.** Gene
 
 - **The printed book:** automated layout from the year's stories, per-story QR codes that play her voice, gift-timed production (subscriptions started at Christmas mature at Christmas)
 - **Photos:** family members attach photos to stories; the entity graph suggests matches ("this story mentions the house on Mitchell Street")
-- **Multi-storyteller households:** both grandparents, or siblings telling the same story from different sides, woven into one volume
+- **In-session follow-ups:** before ending a session, the interviewer asks 1–2 clarifying questions ("what did the hall look like?") to fill gaps while the memory is fresh, deepening the interviewer moat
 - **Family-driven prompts:** grandchildren can submit questions, which become prompts in the grandchild's name
 - **Private family podcast feed:** the original recordings, subscribable only by the family
 - **Launch motion:** pricing, holiday gifting funnel, and the natural referral loop (every family audience member is a future buyer for their own parent)
@@ -108,8 +110,13 @@ The most important thing to get right is **preserving the author's voice.** Gene
 - 2 product engineers across the three surfaces (storyteller, buyer, family)
 - 1 engineer on audio infrastructure, telephony, and the print pipeline
 
-### What I still wouldn't build
+### What I deprioritized (and why)
 
-- Social features beyond the family, public sharing, or anything that makes this feel like content
-- Rich-text composition for the storyteller; composition stays in voice, keyboards are for corrections
-- The product is a ritual between one family and one voice, and the discipline is keeping it that
+| Deprioritized | Why |
+|---|---|
+| Live transcript while recording | Watching words appear in real time distracts an older speaker and makes them self-conscious, which suppresses natural storytelling. The prototype deliberately shows none. |
+| In-app social layer (comments, likes, feeds) and public sharing | Little sustained value over a family member simply texting Grandma, and it forces yet another platform on people to learn. This is a private ritual, not a content platform; family delivery stays read-only. |
+| Multi-author composition (Grandma + Grandpa in one story) | Adds real feature complexity and makes activation harder. A family that wants both voices is served by two subscriptions. |
+| Rich-text / keyboard composition | The storyteller composes by talking; the keyboard exists only for word-level corrections, never for authoring. |
+
+The throughline: this is a ritual between one family and one voice, and the discipline is keeping it that.
