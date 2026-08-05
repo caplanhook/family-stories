@@ -99,6 +99,7 @@
   .progress{height:8px;background:var(--line);border-radius:5px;overflow:hidden;cursor:pointer}
   .progress-fill{height:100%;width:0;background:var(--sage);border-radius:5px;transition:width .1s linear}
   .player-time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink-soft);text-align:right;margin-top:8px;letter-spacing:.02em}
+  .demo-note{font-size:15px;color:var(--ink-soft);text-align:center;line-height:1.5;max-width:500px;margin:-16px auto 32px}
 
   #story-body p{font-size:22px;line-height:1.72;margin:0 0 22px;position:relative}
   .word{cursor:text;border-radius:4px;padding:0 1px;transition:background .15s}
@@ -239,6 +240,7 @@
       </div>
     </div>
     <audio id="audio" preload="metadata"></audio>
+    <p class="demo-note">Your recording is real. The story below is a sample for this demo. The real product transcribes and restructures your story.</p>
 
     <p class="edit-hint">Click any word to change it, or use “✎ Change this” to change a section.<br>A dotted underline is a word I wasn't sure I heard right.</p>
     <div id="story-body"></div>
