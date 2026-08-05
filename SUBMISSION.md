@@ -17,17 +17,17 @@ I defined the two nouns in the prompt first to clarify the scope.
 
 ## What's great about voice + AI
 
-- Lower barrier to entry than writing
-- Speaking is more accessible than typing for many users
-- Supports non-linear thinking. The speaker can come back to earlier ideas
-- AI can clean up thinking: untangle chronology and surface the point the speaker was circling
-- Speech can itself be an artifact that captures tone and personality in a way that writing may flatten
+- Lower barrier to entry than writing.
+- Speaking is more accessible than typing for many users.
+- Supports non-linear thinking. The speaker can come back to earlier ideas.
+- AI can clean up thinking: untangle chronology and surface the point the speaker was circling.
+- Speech can itself be an artifact that captures tone and personality in a way that writing may flatten.
 
 ## Product Goals
-I set 3 product goals to evaluate potential directions for this take home.
-- **Valuable:** Leverages unique value from voice + AI
-- **Defensible:** Differentiated from generalist AI assistants
-- **Constrained:** Meaningful scope achievable within 3 months
+I set 3 product goals to evaluate potential directions for this take-home.
+- **Valuable:** Leverages unique value from voice + AI.
+- **Defensible:** Differentiated from generalist AI assistants.
+- **Constrained:** Meaningful scope achievable within 3 months.
 
 ## Four concepts I considered
 
@@ -38,21 +38,21 @@ I set 3 product goals to evaluate potential directions for this take home.
 | ⭐ **3. Family Memories** | **Prompt Grandma weekly, get her stories in her own voice** | **High** | **Yes** | **Yes** |
 | 4. Occasion Speech | Ramble about someone, get the toast | Low | No | Yes |
 
-**⭐ Chosen direction.** Family Memories won on defensibility and constraint: a generalist assistant can draft a memo, newsletter, or speech today, but it is far too complex to facilitate the desired behavior for an older family member who is not tech savvy.
+**⭐ Chosen direction.** Family Memories won on defensibility and constraint: a generalist assistant can draft a memo, newsletter, or speech today, but it is far too complex to facilitate the desired behavior for an older family member who is not tech-savvy.
 
 ## 1. Who are you building for?
 
 Three user groups under consideration:
 
 - **User:** Storyteller, someone in their 60s or older. Comfortable with email but not technically savvy.
-- **Buyer:** Adult child, someone in their 20s through 50s who realizes their parent's stories exist only in that parent's head
+- **Buyer:** Adult child, someone in their 20s through 50s who realizes their parent's stories exist only in that parent's head.
 - **Audience:** The rest of the family. Mix of ages and technical fluencies.
 
-I built the prototype entirely for the storyteller, because the core UX challenge of the product is making it easy for the older user to record themselves and edit the result prior to publishing. 
+I built the prototype entirely for the storyteller, because the core UX challenge of the product is making it easy for the older user to record themselves and edit the result prior to publishing.
 
 Every product and design decision serves someone who will abandon the product when there is unnecessary friction:
 
--   The emailed link is the auth (no login anywhere)
+-   The emailed link is the auth (no login anywhere).
 -   There is one primary action per screen, and composition never requires typing.
 -   Keyboards appear only for word-level corrections; anything story-sized is done by talking.
 
@@ -71,35 +71,35 @@ The most important thing to get right is **preserving the author's voice.** Gene
 
 **Supporting metrics**
 - **Quality guardrail:** "Sounds like her": share of family recipients who rate a story as sounding like the storyteller. If this drops, we have failed the "most important thing."
-- **Storyteller activation:** story completion rate: % who finish recording and send after opening a prompt. 
+- **Storyteller activation:** story completion rate: % who finish recording and send after opening a prompt.
 
 
 ### Month 1: Quality loop and foundations
 
-- Eval harness for the restructuring itself: verbatim-preservation rate, chronology accuracy, tangent-handling, and the human "sounds like her" rating pipeline
-- Entity handling: per-family name dictionary (people, places) that improves transcription and powers confidence flagging
-- Productionize the storyteller flow from the prototype
-- Starter questions at purchase: the buyer chooses which questions Grandma will be asked, as part of the gifting flow
-- Read-only family view: family members receive, read, and listen to each story, but never edit it
+- Eval harness for the restructuring itself: verbatim-preservation rate, chronology accuracy, tangent-handling, and the human "sounds like her" rating pipeline.
+- Entity handling: per-family name dictionary (people, places) that improves transcription and powers confidence flagging.
+- Productionize the storyteller flow from the prototype.
+- Starter questions at purchase: the buyer chooses which questions Grandma will be asked, as part of the gifting flow.
+- Read-only family view: family members receive, read, and listen to each story, but never edit it.
 
 ### Month 2: Improving story quality and experience
 
-- AI follow-up questions: Asks 1-3 follow-up questions to improve story quality and prompt adherence. ("You mentioned Ruth three times; tell me about Ruth")
-- Buyer experience: add a prompt library and scheduler so buyers can modify what questions will be asked each week
-- Browsable story library: a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement
+- AI follow-ups: Asks 1-3 additional questions to improve story quality and prompt adherence, e.g. "you mentioned Ruth three times; tell me about Ruth."
+- Buyer experience: add a prompt library and scheduler so buyers can modify what questions will be asked each week.
+- Browsable story library: a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement.
 
 
 ### Month 3: Building enduring keepsakes
 
-- Offer printed books: automated layout from the year's stories, per-story QR codes that play her voice
-- Lightweight digital editor to add pictures to select stories and select the cover / title prior to printing
-- Family-driven prompts: grandchildren can submit questions, which become prompts in the grandchild's name
-- Launch motion: Experiment with discounted pricing, holiday gifting funnel
+- Offer printed books: automated layout from the year's stories, per-story QR codes that play her voice.
+- Lightweight digital editor to add pictures to chosen stories and pick the cover / title prior to printing.
+- Family-driven prompts: grandchildren can submit questions, which become prompts in the grandchild's name.
+- Launch motion: Experiment with discounted pricing, holiday gifting funnel.
 
 ### Team shape
-- 2 engineers on the transcription/restructuring quality loop and evals
-- 2 product engineers across the three surfaces (storyteller, buyer, family)
-- 1 engineer on infrastructure
+- 2 engineers on the transcription/restructuring quality loop and evals.
+- 2 product engineers across the three surfaces (storyteller, buyer, family).
+- 1 engineer on infrastructure.
 
 ### What I deprioritized (and why)
 
