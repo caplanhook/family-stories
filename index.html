@@ -557,7 +557,7 @@ function sheetNotRight(){
   const pi=sheetPi; closeSheet();
   openMini("Tell it again, just this part", ()=>{
     if(pi===3){ story[3]=tokenize(ALT_P4); renderStory(); toast('Your new telling is saved.'); }
-    else { toast('Re-telling saved.'); }
+    else { toast("In the full product, I'd rebuild this part from your new recording."); }
   });
 }
 function sheetRemove(){
@@ -598,7 +598,7 @@ document.getElementById('confirm-modal').addEventListener('click', e=>{
 function sheetAdd(){
   closeSheet();
   openMini("Tell me what to add", ()=>{
-    toast("Added to your story — I'll weave it in.");
+    toast("In the full product, I'd weave this into your story.");
   });
 }
 
