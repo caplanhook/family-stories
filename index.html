@@ -18,7 +18,7 @@
     --shadow:0 8px 30px rgba(90,70,50,0.10);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0}
+  html,body{margin:0;padding:0;overflow-x:hidden}
   body{
     background:var(--cream);
     color:var(--ink);
@@ -26,6 +26,7 @@
     font-size:20px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
   .app{max-width:720px;margin:0 auto;padding:40px 24px 96px;min-height:100vh;display:flex;flex-direction:column;justify-content:center}
   .screen{display:none;animation:fade .5s ease}
@@ -99,7 +100,7 @@
   .progress{height:8px;background:var(--line);border-radius:5px;overflow:hidden;cursor:pointer}
   .progress-fill{height:100%;width:0;background:var(--sage);border-radius:5px;transition:width .1s linear}
   .player-time{font-variant-numeric:tabular-nums;font-size:14px;color:var(--ink-soft);text-align:right;margin-top:8px;letter-spacing:.02em}
-  .demo-note{font-size:15px;color:var(--ink-soft);text-align:center;line-height:1.5;max-width:500px;margin:-16px auto 32px}
+  .demo-banner{width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);margin-top:-40px;margin-bottom:36px;background:#EEF3E6;border-bottom:1px solid #DCE3D0;color:#4f5647;font-size:15px;line-height:1.5;text-align:center;padding:13px 24px}
 
   #story-body p{font-size:22px;line-height:1.72;margin:0 0 22px;position:relative}
   .word{cursor:text;border-radius:4px;padding:0 1px;transition:background .15s}
@@ -226,6 +227,7 @@
 
   <!-- SCREEN 4 — STORY -->
   <section id="screen-story" class="screen">
+    <div class="demo-banner">Your recording is real. The story below is a sample for this demo. The real product transcribes and restructures your story.</div>
     <h1 class="story-title">The Day I Met Your Grandfather</h1>
     <p class="story-byline" id="story-byline">told by Grandma · June 2026</p>
 
@@ -240,7 +242,6 @@
       </div>
     </div>
     <audio id="audio" preload="metadata"></audio>
-    <p class="demo-note">Your recording is real. The story below is a sample for this demo. The real product transcribes and restructures your story.</p>
 
     <p class="edit-hint">Click any word to change it, or use “✎ Change this” to change a section.<br>A dotted underline is a word I wasn't sure I heard right.</p>
     <div id="story-body"></div>
