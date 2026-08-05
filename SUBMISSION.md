@@ -70,7 +70,7 @@ The most important thing to get right is **preserving the author's voice.** Gene
 **North star: Weekly Active Rate** — the share of users who record and send a story in a given week (active ÷ subscribed). The product is a weekly ritual, so weekly-active measures habit formation.
 
 **Supporting metrics**
-- **Quality guardrail:** "Sounds like her": share of family recipients who rate a story as sounding like the storyteller. If this drops, we have failed the "most important thing".
+- **Quality guardrail:** "Sounds like her": share of family recipients who rate a story as sounding like the storyteller. If this drops, we have failed the "most important thing."
 - **Storyteller activation:** story completion rate: % who finish recording and send after opening a prompt. 
 
 
@@ -91,7 +91,7 @@ The most important thing to get right is **preserving the author's voice.** Gene
 
 ### Month 3: Building enduring keepsakes
 
-- Offer printed books:** automated layout from the year's stories, per-story QR codes that play her voice
+- Offer printed books: automated layout from the year's stories, per-story QR codes that play her voice
 - Lightweight digital editor to add pictures to select stories and select the cover / title prior to printing
 - Family-driven prompts: grandchildren can submit questions, which become prompts in the grandchild's name
 - Launch motion: Experiment with discounted pricing, holiday gifting funnel
