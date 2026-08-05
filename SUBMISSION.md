@@ -62,6 +62,7 @@ The most important thing to get right is **preserving the author's voice.** Gene
 - **Reorder and stitch, never rewrite.** The AI may untangle chronology, reposition tangents, and add minimal connective tissue, but it never changes the phrasing.
 - **Always show the ground truth.** Every story ships with the original recording attached. The audio file serves as both a keepsake the family will treasure and proof that the written version reflects what she actually said.
 - **Acknowledge uncertainty instead of guessing.** Transcription fails most on the proper nouns family stories are full of (names, places). Rather than guess, the prototype flags low-confidence words for a one-tap fix. Those corrections compound into a per-family corpus of people and places over the subscription so the transcription can get smarter.
+- **Warn before editing.** Less technically fluent users are more likely to make mistakes during editing that will inadvertently remove key parts of their story. Warn users prior to making substantial changes that will be hard to undo.
 
 
 ## 3. What would this look like with 5 engineers and 3 months?
