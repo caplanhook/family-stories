@@ -148,7 +148,8 @@
       const lede = md.match(/^\s*((?:>.*(?:\r?\n|$))+)/);
       if (lede) {
         const heroLede = document.querySelector('.hero .lede');
-        if (heroLede) heroLede.textContent = lede[1].replace(/^\s*>\s?/gm, '').replace(/\s*\r?\n\s*/g, ' ').trim();
+        const ledeMd = lede[1].replace(/^\s*>\s?/gm, '').replace(/\s*\r?\n\s*/g, ' ').trim();
+        if (heroLede) heroLede.innerHTML = marked.parseInline(ledeMd);
         md = md.slice(lede.index + lede[0].length);
       }
       el.innerHTML = marked.parse(md, { gfm: true });
