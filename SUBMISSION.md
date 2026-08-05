@@ -1,6 +1,6 @@
 # Case Study: Capturing Family Stories with Voice + AI
 
-> A weekly prompt asks an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
+> Proposed Solution: _Family Memories_, a subscription that sends a weekly prompt to an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
 
 ## Prompt
 
@@ -67,7 +67,7 @@ The most important thing to get right is **preserving the author's voice.** Gene
 
 ## 3. What would this look like with 5 engineers and 3 months?
 
-**North star: Weekly Active Rate** — the share of subscribers who record and send a story in a given week (active ÷ subscribed). The product is a weekly ritual, so weekly-active measures habit formation.
+**North star: Weekly Active Rate** — the share of users who record and send a story in a given week (active ÷ subscribed). The product is a weekly ritual, so weekly-active measures habit formation.
 
 **Supporting metrics**
 - **Quality guardrail:** "Sounds like her": share of family recipients who rate a story as sounding like the storyteller. If this drops, we have failed the "most important thing".
@@ -84,17 +84,17 @@ The most important thing to get right is **preserving the author's voice.** Gene
 
 ### Month 2: Improving story quality and experience
 
-- **The AI interviewer:** Asks 1-3 follow-up questions to improve story quality and prompt adherence. ("You mentioned Ruth three times; tell me about Ruth")
-- **Buyer experience:** add a prompt library and scheduler so buyers can modify what questions will be asked for the subscription
-- **Browsable story library:** a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement
+- AI follow-up questions: Asks 1-3 follow-up questions to improve story quality and prompt adherence. ("You mentioned Ruth three times; tell me about Ruth")
+- Buyer experience: add a prompt library and scheduler so buyers can modify what questions will be asked each week
+- Browsable story library: a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement
 
 
 ### Month 3: Building enduring keepsakes
 
-- **Offer printed books:** automated layout from the year's stories, per-story QR codes that play her voice
+- Offer printed books:** automated layout from the year's stories, per-story QR codes that play her voice
 - Lightweight digital editor to add pictures to select stories and select the cover / title prior to printing
-- **Family-driven prompts:** grandchildren can submit questions, which become prompts in the grandchild's name
-- **Launch motion:** Experiment with discounted pricing, holiday gifting funnel
+- Family-driven prompts: grandchildren can submit questions, which become prompts in the grandchild's name
+- Launch motion: Experiment with discounted pricing, holiday gifting funnel
 
 ### Team shape
 - 2 engineers on the transcription/restructuring quality loop and evals
