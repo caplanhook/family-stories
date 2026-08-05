@@ -1,6 +1,6 @@
 # Case Study: Capturing Family Stories with Voice + AI
 
-> Proposed Solution: _Family Memories_, a subscription that sends a weekly prompt to an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
+> Proposed Solution: **Family Memories**, a subscription that sends a weekly prompt to an older relative to tell one story out loud. The tool turns her unpolished recording into a structured written story in her own voice and delivers it to her family with the original audio attached.
 
 ## Prompt
 
