@@ -85,8 +85,8 @@ The most important thing to get right is **preserving the author's voice.** Gene
 ### Month 2: Improving story quality and experience
 
 - **The AI interviewer:** Asks 1-3 follow-up questions to improve story quality and prompt adherence. ("You mentioned Ruth three times; tell me about Ruth")
-- Buyer experience: add a prompt library and scheduler so buyers can modify what questions will be asked for the subscription
-- Browsable story library:** a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement
+- **Buyer experience:** add a prompt library and scheduler so buyers can modify what questions will be asked for the subscription
+- **Browsable story library:** a read-only archive of Grandma's stories (text + audio) that she and her family can revisit, aiding discovery and re-engagement
 
 
 ### Month 3: Building enduring keepsakes
